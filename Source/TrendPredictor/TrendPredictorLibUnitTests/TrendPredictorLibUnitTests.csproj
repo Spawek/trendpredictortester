@@ -55,6 +55,7 @@
   <ItemGroup>
     <Compile Include="DataBaseTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="FileDataBaseProviderTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TrendPredictorLib\TrendPredictorLib.csproj">
