@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrendPredictorLib", "TrendPredictorLib\TrendPredictorLib.csproj", "{DFCECD39-1051-4507-8C5B-569F6F2C125F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrendPredictorLibUnitTests", "TrendPredictorLibUnitTests\TrendPredictorLibUnitTests.csproj", "{32B184A4-7973-46B1-A807-8FBB47246653}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DFCECD39-1051-4507-8C5B-569F6F2C125F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DFCECD39-1051-4507-8C5B-569F6F2C125F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DFCECD39-1051-4507-8C5B-569F6F2C125F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DFCECD39-1051-4507-8C5B-569F6F2C125F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{32B184A4-7973-46B1-A807-8FBB47246653}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{32B184A4-7973-46B1-A807-8FBB47246653}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{32B184A4-7973-46B1-A807-8FBB47246653}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{32B184A4-7973-46B1-A807-8FBB47246653}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
