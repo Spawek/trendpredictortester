@@ -67,3 +67,5 @@ ros/robocar-debug/release
 *.pro.user
 *.pro.user.*
 
+/Data/EURUSD.xlsx
+/Data/~$EURUSD.xlsx
