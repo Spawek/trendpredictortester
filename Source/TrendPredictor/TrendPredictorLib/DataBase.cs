@@ -30,6 +30,31 @@ namespace TrendPredictorLib
             set { db[key] = value; }
         }
 
+        /// <summary>
+        /// joins databases
+        /// </summary>
+        /// <param name="database">databases cannot contain same keys!</param>
+        /// <returns></returns>
+        public static DataBase operator + (DataBase db1, DataBase db2)
+        {
+            DataBase newDb = new DataBase();
+
+            foreach (var item in db1.db)
+            {
+                if (db2.db.ContainsKey(item.Key))
+                    throw new ArgumentException("databases you want to add contains same key");
+
+                newDb[item.Key].AddRange(item.Value);
+            }
+
+            foreach (var item in db2.db)
+            {
+                newDb[item.Key].AddRange(item.Value);
+            }
+
+            return newDb;
+        }
+
         public int CountVectorElements
         { 
             get 

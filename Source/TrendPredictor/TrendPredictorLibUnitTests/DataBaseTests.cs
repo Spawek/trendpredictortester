@@ -118,5 +118,34 @@ namespace TrendPredictorLibUnitTests
             Assert.AreEqual(13.0d, dbClone["b"][1]);
         }
 
+
+        [TestMethod]
+        public void DataBasePlusOperatorTest()
+        {
+            DataBase db1 = new DataBase();
+            db1["a"].Add(1.0d);
+
+            DataBase db2 = new DataBase();
+            db2["b"].Add(2.0d);
+
+            db1 += db2;
+
+            Assert.AreEqual(1.0d, db1["a"][0]);
+            Assert.AreEqual(2.0d, db1["b"][0]);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void DataBasePlusOperatorShouldFailIfKeysAreSame()
+        {
+            DataBase db1 = new DataBase();
+            db1["a"].Add(1.0d);
+
+            DataBase db2 = new DataBase();
+            db2["a"].Add(2.0d);
+
+            db1 += db2;
+        }
+
     }
 }
