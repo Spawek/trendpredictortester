@@ -91,5 +91,42 @@ namespace TrendPredictorLibUnitTests
             Assert.AreEqual(0.8d, willamsAccDistInd[4], delta);
         }
 
+        [TestMethod]
+        public void IndicatorsCalculatorCalculateChaikinsVolatilityIndex()
+        {
+            Assert.Inconclusive();
+        }
+
+        [TestMethod]
+        public void IndicatorsCalculatorCalcAMinusB()
+        {
+            List<double> c = IndicatorsCalculator.CalcAMinusB(high, low);
+
+            Assert.AreEqual(high.Count, c.Count);
+
+            double delta = 0.0001;
+            Assert.AreEqual(1.0d, c[0], delta);
+            Assert.AreEqual(0.7d, c[1], delta);
+            Assert.AreEqual(0.5d, c[2], delta);
+            Assert.AreEqual(1.2d, c[3], delta);
+            Assert.AreEqual(0.9d, c[4], delta);
+        }
+
+        [TestMethod]
+        public void IndicatorsCalculatorCalcExponentalMovingAverage()
+        {
+            List<double> EMA = IndicatorsCalculator.CalcExponentalMovingAverage(smallTestData, 0.5d);
+
+            Assert.AreEqual(smallTestData.Count, EMA.Count);
+
+            double delta = 0.0001;
+            Assert.AreEqual(1.0d, EMA[0], delta);
+            Assert.AreEqual(1.5d, EMA[1], delta);
+            Assert.AreEqual(2.25d, EMA[2], delta);
+            Assert.AreEqual(3.125d, EMA[3], delta);
+            Assert.AreEqual(4.0625d, EMA[4], delta);
+            Assert.AreEqual(5.03125d, EMA[5], delta);
+        }
+
     }
 }

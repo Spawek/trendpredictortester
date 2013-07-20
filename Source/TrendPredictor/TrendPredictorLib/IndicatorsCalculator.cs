@@ -177,5 +177,60 @@ namespace TrendPredictorLib
 
             return output;
         }
+
+        /// <summary>
+        ///http://bossa.pl/edukacja/AT/wskazniki/VolatilityChaikins/
+        /// </summary>
+        /// <param name="high"></param>
+        /// <param name="low"></param>
+        /// <returns></returns>
+        public static List<double> CalcChaikinsVolatilityIndex(List<double> high, List<double> low)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static List<double> CalcAMinusB(List<double> a, List<double> b)
+        {
+            if (a.Count != b.Count)
+                throw new ArgumentException("a size != b size");
+            if (a.Count < 2)
+                throw new ArgumentException("a size is lesser than 2");
+
+            List<double> output = new List<double>(a.Count);
+
+            for (int i = 0; i < a.Count; i++)
+            {
+                output.Add(a[i] - b[i]);
+            }
+
+            return output;
+        }
+
+        /// <summary>
+        ///http://en.wikipedia.org/wiki/Moving_average_(finance)#Exponential_moving_average
+        /// </summary>
+        /// <param name="input"></param>
+        /// <param name="alpha"></param>
+        /// <returns></returns>
+        public static List<double> CalcExponentalMovingAverage(List<double> input, double alpha)
+        {
+            if (input.Count < 2)
+                throw new ArgumentException("input size is lesser than 2");
+
+            double currAvg = input[0];
+
+            List<double> output = new List<double>();
+            output.Add(currAvg);
+            for (int i = 1; i < input.Count; i++)
+            {
+                currAvg *= (1 - alpha);
+                currAvg += alpha * input[i];
+
+                output.Add(currAvg);
+            }
+
+            return output;
+        }
+
 	}
 }
