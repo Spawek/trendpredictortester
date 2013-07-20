@@ -13,7 +13,9 @@ using System.Threading;
 namespace WindowsFormsPlotter
 {
 	public partial class Plotter : Form
-	{
+    {
+        public const double CHART_HEIGHT_MULTIPLER = 0.9d;
+
 		private static Plotter singletonInstance = null;
         private static Thread singletonThread = null;
 		public static Plotter GetInstance()
@@ -75,43 +77,33 @@ namespace WindowsFormsPlotter
 			{
 				currCharts[i].Width = windowWidth;
 				currCharts[i].Left = 0;
-				currCharts[i].Height = windowHeight / plotsNo;
+                currCharts[i].Height = (int)(CHART_HEIGHT_MULTIPLER * (double)windowHeight / (double)plotsNo);
 				currCharts[i].Top = windowHeight / plotsNo * i;
 				currCharts[i].Visible = true;
 			}
 		}
 
-		public void AddPlot(List<double> values, List<double> time = null)
+		public void AddPlot(List<double> values, string title = "")
 		{
-			//in case there is no time vector given 
-			//it will be created by default as "0,1,2,3,..." list of same size as values list
-			if (time == null)
-			{
-				time = new List<double>(values.Count);
-				for (int i = 0; i < values.Count; i++)
-				{
-					time.Add(i);
-				}
-			}
-
-			if (time.Count != values.Count)
-				throw new ArgumentException("values size is different than time vector size");
-
 			Chart chart = new Chart();
 			Series series = new Series();
-            series.BorderWidth = 10;
+            ChartArea chartArea1 = new ChartArea();
+            chartArea1.Name = "ChartArea1";
+            chart.ChartAreas.Add(chartArea1);
+            series.BorderWidth = 2;
             series.BorderDashStyle = ChartDashStyle.Solid;
             series.ChartType = SeriesChartType.Line;
             series.Color = Color.Green;
 			for (int i = 0; i < values.Count; i++)
 			{
-				series.Points.AddXY(time[i], values[i]);
+				series.Points.AddXY(i, values[i]);
 			}
             chart.BorderlineColor = Color.Red;
-            chart.BorderlineWidth = 4;
+            chart.BorderlineWidth = 1;
 			chart.Series.Add(series);
-            chart.Titles.Add("testest");
+            chart.Titles.Add(title);
             chart.Invalidate();
+            chart.Palette = ChartColorPalette.Fire;
 			AddChartInRuntime(chart);
 		}
 
