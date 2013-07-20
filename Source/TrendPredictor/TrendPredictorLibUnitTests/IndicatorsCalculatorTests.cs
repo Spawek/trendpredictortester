@@ -37,5 +37,47 @@ namespace TrendPredictorLibUnitTests
             Assert.AreEqual(3.0d, movingMeanInd[3], delta); // (2+3+4)/3 = 2;
         }
 
+        [TestMethod]
+        public void IndicatorsCalculatorCalcaulatePercentRIndicator()
+        {
+            List<double> high = new List<double>() { 4.0d, 4.1d, 4.0d, 4.2d, 4.4d };
+            List<double> low = new List<double>() { 3.0d, 3.4d, 3.5d, 3.0d, 3.5d };
+            List<double> close = new List<double>() { 3.5d, 3.6d, 3.8d, 3.9d, 3.8d };
+            int n = 5;
+
+            List<double> percRInd = IndicatorsCalculator.CalcaulatePercentRIndicator(high, low, close, n);
+
+            Assert.AreEqual(high.Count, percRInd.Count);
+            for (int i = 0; i < n - 1; i++)
+			{
+                Assert.AreEqual(double.NaN, percRInd[i]);
+			}
+
+            // %R = (MAX(H,n) - C)/(MAX(H,n) - MIN(L,n))
+            Assert.AreEqual((4.4d - 3.8d)/(4.4d - 3.0d), percRInd[4]);
+        }
+
+        [TestMethod]
+        public void IndicatorsCalculatorCalcaulatePercentRIndicatorModified()
+        {
+            List<double> high = new List<double>() { 4.0d, 4.1d, 4.0d, 4.2d, 4.4d };
+            List<double> low = new List<double>() { 3.0d, 3.4d, 3.5d, 3.0d, 3.5d };
+            List<double> close = new List<double>() { 3.5d, 3.6d, 3.8d, 3.9d, 3.8d };
+            int n = 5;
+
+            List<double> percRIndMod = IndicatorsCalculator.CalcaulatePercentRIndicatorModified(high, low, close, n);
+
+            Assert.AreEqual(high.Count, percRIndMod.Count);
+            for (int i = 0; i < n - 1; i++)
+            {
+                Assert.AreEqual(double.NaN, percRIndMod[i]);
+            }
+
+            // %R = (C - MIN(L,n))/(MAX(H,n) - MIN(L,n))
+            Assert.AreEqual((3.8d - 3.0d) / (4.4d - 3.0d), percRIndMod[4]);
+
+
+        }
+
     }
 }
