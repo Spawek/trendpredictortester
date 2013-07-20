@@ -26,7 +26,7 @@ namespace TrendPredictorLib
             if (db != null)
                 return db;
 
-            db = new DataBase();
+            db = new DataBase("DB from File");
             using (StreamReader sr = new StreamReader(filePath))
             {
                 string line = sr.ReadLine(); //1st line is not needed (for now)
