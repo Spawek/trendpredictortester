@@ -8,11 +8,16 @@ namespace TrendPredictorLib
 {
     public class DataBase
     {
-        private Dictionary<string, List<double>> db;
+        private Dictionary<string, List<double>> db = new Dictionary<string, List<double>>();
 
         public DataBase()
         {
-            db = new Dictionary<string, List<double>>();
+
+        }
+
+        public DataBase(List<double> data, string name)
+        {
+            db[name] = data;
         }
 
         public List<double> this[string key]
@@ -28,6 +33,17 @@ namespace TrendPredictorLib
             }
 
             set { db[key] = value; }
+        }
+
+        public void PrintDBProperties()
+        {
+            Console.WriteLine("\n");
+            Console.WriteLine("DB elements no: {0}", CountVectorElements);
+            Console.WriteLine("DB keys:");
+            foreach (var key in db.Keys)
+            {
+                Console.WriteLine("\t{0}", key);
+            }
         }
 
         /// <summary>

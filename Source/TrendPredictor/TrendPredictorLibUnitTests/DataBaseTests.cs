@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TrendPredictorLib;
+using System.Collections.Generic;
 
 namespace TrendPredictorLibUnitTests
 {
@@ -147,5 +148,12 @@ namespace TrendPredictorLibUnitTests
             db1 += db2;
         }
 
+        [TestMethod]
+        public void DataBaseConstructionTest()
+        {
+            DataBase db = new DataBase(new List<double>() { 1.0d, 2.0d }, "test5g");
+
+            Assert.AreEqual(2.0d, db["test5g"][1]);
+        }
     }
 }
