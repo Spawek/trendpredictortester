@@ -9,11 +9,14 @@ namespace TrendPredictorLibUnitTests
     public class IndicatorsCalculatorTests
     {
         List<double> smallTestData = new List<double>() { 1.0d, 2.0d, 3.0d, 4.0d, 5.0d, 6.0d };
+        List<double> high = new List<double>() { 4.0d, 4.1d, 4.0d, 4.2d, 4.4d };
+        List<double> low = new List<double>() { 3.0d, 3.4d, 3.5d, 3.0d, 3.5d };
+        List<double> close = new List<double>() { 3.5d, 3.6d, 3.8d, 3.9d, 3.8d };
 
         [TestMethod]
         public void IndicatorsCalculatorChangeIndicatorTest()
         {
-            List<double> changeInd = IndicatorsCalculator.CalculateChangeIndicator(smallTestData);
+            List<double> changeInd = IndicatorsCalculator.CalcChangeIndicator(smallTestData);
 
             Assert.AreEqual(smallTestData.Count, changeInd.Count);
 
@@ -26,7 +29,7 @@ namespace TrendPredictorLibUnitTests
         [TestMethod]
         public void IndicatorsCalculatorMovingMeanTest()
         {
-            List<double> movingMeanInd = IndicatorsCalculator.CalculateMovingMean(smallTestData, 3);
+            List<double> movingMeanInd = IndicatorsCalculator.CalcMovingMean(smallTestData, 3);
 
             Assert.AreEqual(smallTestData.Count, movingMeanInd.Count);
 
@@ -40,12 +43,9 @@ namespace TrendPredictorLibUnitTests
         [TestMethod]
         public void IndicatorsCalculatorCalcaulatePercentRIndicator()
         {
-            List<double> high = new List<double>() { 4.0d, 4.1d, 4.0d, 4.2d, 4.4d };
-            List<double> low = new List<double>() { 3.0d, 3.4d, 3.5d, 3.0d, 3.5d };
-            List<double> close = new List<double>() { 3.5d, 3.6d, 3.8d, 3.9d, 3.8d };
             int n = 5;
 
-            List<double> percRInd = IndicatorsCalculator.CalcaulatePercentRIndicator(high, low, close, n);
+            List<double> percRInd = IndicatorsCalculator.CalcPercentRIndicator(high, low, close, n);
 
             Assert.AreEqual(high.Count, percRInd.Count);
             for (int i = 0; i < n - 1; i++)
@@ -60,12 +60,9 @@ namespace TrendPredictorLibUnitTests
         [TestMethod]
         public void IndicatorsCalculatorCalcaulatePercentRIndicatorModified()
         {
-            List<double> high = new List<double>() { 4.0d, 4.1d, 4.0d, 4.2d, 4.4d };
-            List<double> low = new List<double>() { 3.0d, 3.4d, 3.5d, 3.0d, 3.5d };
-            List<double> close = new List<double>() { 3.5d, 3.6d, 3.8d, 3.9d, 3.8d };
             int n = 5;
 
-            List<double> percRIndMod = IndicatorsCalculator.CalcaulatePercentRIndicatorModified(high, low, close, n);
+            List<double> percRIndMod = IndicatorsCalculator.CalcPercentRIndicatorModified(high, low, close, n);
 
             Assert.AreEqual(high.Count, percRIndMod.Count);
             for (int i = 0; i < n - 1; i++)
@@ -73,10 +70,25 @@ namespace TrendPredictorLibUnitTests
                 Assert.AreEqual(double.NaN, percRIndMod[i]);
             }
 
+            double delta = 0.0001;
+
             // %R = (C - MIN(L,n))/(MAX(H,n) - MIN(L,n))
-            Assert.AreEqual((3.8d - 3.0d) / (4.4d - 3.0d), percRIndMod[4]);
+            Assert.AreEqual((3.8d - 3.0d) / (4.4d - 3.0d), percRIndMod[4], delta);
+        }
 
+        [TestMethod]
+        public void IndicatorsCalculatorCalculateWilliamsAccumulationDistributionIndicator()
+        {
+            List<double> willamsAccDistInd = IndicatorsCalculator.CalcWilliamsAccumulationDistributionIndicator(high, low, close);
 
+            double delta = 0.0001;
+
+            Assert.AreEqual(5, willamsAccDistInd.Count);
+            Assert.AreEqual(0.0d, willamsAccDistInd[0], delta);
+            Assert.AreEqual(0.2d, willamsAccDistInd[1], delta);
+            Assert.AreEqual(0.5d, willamsAccDistInd[2], delta);
+            Assert.AreEqual(1.4d, willamsAccDistInd[3], delta);
+            Assert.AreEqual(0.8d, willamsAccDistInd[4], delta);
         }
 
     }

@@ -10,7 +10,7 @@ namespace TrendPredictorLib
 		/// <summary>
 		/// its like change in percents, but here are no percents (no *100)
 		/// </summary>
-		public static List<double> CalculateChangeIndicator(List<double> inputVector)
+		public static List<double> CalcChangeIndicator(List<double> inputVector)
 		{
 			if (inputVector.Count < 2)
 				throw new ArgumentException("input vector is too small");
@@ -32,7 +32,7 @@ namespace TrendPredictorLib
         /// <param name="inputVector"></param>
 		/// <param name="backstepsTaken">it includes current point, 1 would be just vector copy</param>
 		/// <returns></returns>
-		public static List<double> CalculateMovingMean(List<double> inputVector, int backstepsTaken)
+		public static List<double> CalcMovingMean(List<double> inputVector, int backstepsTaken)
 		{
 			if (backstepsTaken < 2)
 				throw new ArgumentOutOfRangeException("backstepsTaken");
@@ -62,7 +62,7 @@ namespace TrendPredictorLib
         /// <param name="low"></param>
         /// <param name="close"></param>
         /// <returns></returns>
-        public static List<double> CalcaulatePercentRIndicator
+        public static List<double> CalcPercentRIndicator
             (List<double> high, List<double> low, List<double> close, int n)
         {
             if (n < 2)
@@ -99,7 +99,7 @@ namespace TrendPredictorLib
         /// <param name="low"></param>
         /// <param name="close"></param>
         /// <returns></returns>
-        public static List<double> CalcaulatePercentRIndicatorModified
+        public static List<double> CalcPercentRIndicatorModified
             (List<double> high, List<double> low, List<double> close, int n)
         {
             if (n < 2)
@@ -126,7 +126,56 @@ namespace TrendPredictorLib
             }
 
             return output;
+        }
 
+        /// <summary>
+        /// it looks almost exactly like "close" - it doesnt seem that it is very useful
+        /// 
+        /// http://bossa.pl/edukacja/AT/wskazniki/WilliamsAccumulationDistribution/
+        /// Jeżeli C > C [-1] to A/D = C - (MinL (C [-1]; L)
+        /// Jeżeli C < C [-1] to A/D = C - (MaxL (C [-1]; H)
+        /// Jeżeli C = C [-1] to A/D = 0
+        /// A/D Williamsa = A/D + A/D Williamsa [-1]
+        /// </summary>
+        /// <param name="high"></param>
+        /// <param name="low"></param>
+        /// <param name="close"></param>
+        /// <returns></returns>
+        public static List<double> CalcWilliamsAccumulationDistributionIndicator
+            (List<double> high, List<double> low, List<double> close)
+        {
+            if (high.Count != low.Count || low.Count != close.Count)
+                throw new ArgumentException("vectors are not of equal size!");
+            int dataSize = high.Count;
+            if (dataSize < 2)
+                throw new ArgumentException("data size is smaller than 2");
+
+            List<double> output = new List<double>();
+
+            output.Add(0.0d);
+            
+            double ADWilliams = 0.0;
+            for (int i = 1; i < dataSize; i++)
+            {
+                double AD;
+                if(close[i] > close[i-1])
+                {
+                    AD = close[i] - Math.Min(close[i - 1], low[i]);
+                }
+                else if (close[i] < close[i - 1])
+                {
+                    AD = close[i] - Math.Max(close[i - 1], high[i]);
+                }
+                else //close[i] == close[i-1]
+                {
+                    AD = 0;
+                }
+
+                ADWilliams += AD;
+                output.Add(ADWilliams);
+            }
+
+            return output;
         }
 	}
 }

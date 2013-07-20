@@ -104,6 +104,8 @@ namespace WindowsFormsPlotter
             chart.Titles.Add(title);
             chart.Invalidate();
             chart.Palette = ChartColorPalette.Fire;
+            chartArea1.AxisY.Minimum = values.Min();
+            chartArea1.AxisY.Maximum = values.Max();
 			AddChartInRuntime(chart);
 		}
 
