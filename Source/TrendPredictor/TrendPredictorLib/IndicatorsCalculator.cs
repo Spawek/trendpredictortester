@@ -180,13 +180,40 @@ namespace TrendPredictorLib
 
         /// <summary>
         ///http://bossa.pl/edukacja/AT/wskazniki/VolatilityChaikins/
+        ///EMA = Exponental Moving Average (modified version)
+        ///CV=(EMA(H-L,n) - EMA(H-L,n)_[-n])/(EMA(H-L,n)_[-n])
         /// </summary>
         /// <param name="high"></param>
         /// <param name="low"></param>
         /// <returns></returns>
-        public static List<double> CalcChaikinsVolatilityIndex(List<double> high, List<double> low)
+        public static List<double> CalcChaikinsVolatilityIndex(List<double> high, List<double> low, int n)
         {
-            throw new NotImplementedException();
+            if (n < 2)
+                throw new ArgumentOutOfRangeException("n");
+            if (high.Count != low.Count)
+                throw new ArgumentException("vectors are not of equal size!");
+            int dataSize = high.Count;
+            if (dataSize < n*2)
+                throw new ArgumentException("data size is smaller than n * 2");
+
+            List<double> HMinusL = CalcAMinusB(high, low);
+            List<double> HMinusLMHA = CalcExponentalMovingAverageModified(HMinusL, n);
+            
+            List<double> output = new List<double>();
+
+            for (int i = 0; i < n; i++)
+            {
+                output.Add(double.NaN);
+            }
+
+            for (int i = n; i < dataSize; i++)
+            {
+                double EmaHMinusL = HMinusLMHA[i];
+                double EmaHMinusLBackByN = HMinusLMHA[i-n];
+                output.Add((EmaHMinusL - EmaHMinusLBackByN) / EmaHMinusLBackByN);
+            }
+
+            return output;
         }
 
         public static List<double> CalcAMinusB(List<double> a, List<double> b)
@@ -216,6 +243,8 @@ namespace TrendPredictorLib
         {
             if (input.Count < 2)
                 throw new ArgumentException("input size is lesser than 2");
+            if (alpha <= 0.0d || alpha >= 1.0d)
+                throw new ArgumentException("alpha is not in (0,1) range");
 
             double currAvg = input[0];
 
@@ -230,6 +259,24 @@ namespace TrendPredictorLib
             }
 
             return output;
+        }
+
+        /// <summary>
+        ///http://en.wikipedia.org/wiki/Moving_average_(finance)#Modified_moving_average
+        /// </summary>
+        /// <param name="input"></param>
+        /// <param name="alpha"></param>
+        /// <returns></returns>
+        public static List<double> CalcExponentalMovingAverageModified(List<double> input, int n)
+        {
+            if (input.Count < n)
+                throw new ArgumentException("input size is lesser than 2");
+            if (n < 2)
+                throw new ArgumentException("n < 2");
+
+            double alpha = 1.0d / (double)n;
+
+            return CalcExponentalMovingAverage(input, alpha);
         }
 
 	}
