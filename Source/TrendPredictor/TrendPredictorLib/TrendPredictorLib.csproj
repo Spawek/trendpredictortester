@@ -45,7 +45,10 @@
   <ItemGroup>
     <Compile Include="DataBase.cs" />
     <Compile Include="DataBaseProvider.cs" />
+    <Compile Include="DataPoint.cs" />
+    <Compile Include="DataPointCutter.cs" />
     <Compile Include="FileDataBaseProvider.cs" />
+    <Compile Include="Helpers.cs" />
     <Compile Include="IndicatorsCalculator.cs" />
     <Compile Include="MainClass.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
