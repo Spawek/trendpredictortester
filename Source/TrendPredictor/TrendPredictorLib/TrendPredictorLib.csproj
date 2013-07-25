@@ -43,6 +43,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Predictors\ChaoticNetwork\Nodes\CopyNode.cs" />
+    <Compile Include="Predictors\ChaoticNetwork\Nodes\Operations.cs" />
+    <Compile Include="Predictors\ChaoticNetwork\Nodes\AddNode.cs" />
     <Compile Include="DataProvider\DataBase.cs" />
     <Compile Include="DataProvider\DataBaseProvider.cs" />
     <Compile Include="DataProvider\DataPoint.cs" />
@@ -50,11 +53,20 @@
     <Compile Include="DataProvider\FileDataBaseProvider.cs" />
     <Compile Include="Helpers.cs" />
     <Compile Include="DataProvider\IndicatorsCalculator.cs" />
+    <Compile Include="Predictors\ChaoticNetwork\Nodes\Input.cs" />
+    <Compile Include="Predictors\ChaoticNetwork\Nodes\InverseNode.cs" />
+    <Compile Include="Predictors\ChaoticNetwork\Nodes\LogNode.cs" />
     <Compile Include="MainClass.cs" />
+    <Compile Include="Predictors\ChaoticNetwork\Nodes\MultiplyNode.cs" />
+    <Compile Include="Predictors\ChaoticNetwork\Network.cs" />
+    <Compile Include="Predictors\ChaoticNetwork\Nodes\Node.cs" />
+    <Compile Include="Predictors\ChaoticNetwork\OperationFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Predictors\ChaoticNetwork\Nodes\ReverseNode.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />
+    <None Include="Predictors\ChaoticNetwork\ClassDiagram.cd" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\WindowsFormsPlotter\WindowsFormsPlotter.csproj">
@@ -62,6 +74,7 @@
       <Name>WindowsFormsPlotter</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
