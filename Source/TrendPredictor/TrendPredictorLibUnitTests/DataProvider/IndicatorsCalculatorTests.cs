@@ -154,6 +154,5 @@ namespace TrendPredictorLibUnitTests
             Assert.AreEqual(0.36111d, ChalkinsVolatility[4], delta);
         }
 
-
     }
 }

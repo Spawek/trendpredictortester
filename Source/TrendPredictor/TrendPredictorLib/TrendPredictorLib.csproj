@@ -48,7 +48,7 @@
     <Compile Include="DataProvider\DataPoint.cs" />
     <Compile Include="DataProvider\DataPointCutter.cs" />
     <Compile Include="DataProvider\FileDataBaseProvider.cs" />
-    <Compile Include="DataProvider\Helpers.cs" />
+    <Compile Include="Helpers.cs" />
     <Compile Include="DataProvider\IndicatorsCalculator.cs" />
     <Compile Include="MainClass.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
