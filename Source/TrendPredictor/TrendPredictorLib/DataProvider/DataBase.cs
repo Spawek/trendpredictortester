@@ -74,13 +74,7 @@ namespace TrendPredictorLib
             return newDb;
         }
 
-        public int CountVectorElements
-        { 
-            get 
-            { 
-                return ValidateElementsNoInVectors(); 
-            } 
-        }
+        public int CountVectorElements{ get { return ValidateElementsNoInVectors(); } }
 
         public DataBase CloneDbRange(int beginIndex, int count)
         {
@@ -134,7 +128,6 @@ namespace TrendPredictorLib
         }
 
         /// <summary>
-        /// 
         /// </summary>
         /// <returns>no of elements in each vector</returns>
         private int ValidateElementsNoInVectors()

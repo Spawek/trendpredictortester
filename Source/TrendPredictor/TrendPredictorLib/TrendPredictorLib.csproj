@@ -43,13 +43,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DataBase.cs" />
-    <Compile Include="DataBaseProvider.cs" />
-    <Compile Include="DataPoint.cs" />
-    <Compile Include="DataPointCutter.cs" />
-    <Compile Include="FileDataBaseProvider.cs" />
-    <Compile Include="Helpers.cs" />
-    <Compile Include="IndicatorsCalculator.cs" />
+    <Compile Include="DataProvider\DataBase.cs" />
+    <Compile Include="DataProvider\DataBaseProvider.cs" />
+    <Compile Include="DataProvider\DataPoint.cs" />
+    <Compile Include="DataProvider\DataPointCutter.cs" />
+    <Compile Include="DataProvider\FileDataBaseProvider.cs" />
+    <Compile Include="DataProvider\Helpers.cs" />
+    <Compile Include="DataProvider\IndicatorsCalculator.cs" />
     <Compile Include="MainClass.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
