@@ -1,37 +1,45 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
-  <Class Name="TrendPredictorLib.Input" Collapsed="true">
-    <Position X="2.25" Y="2.25" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>BAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAgAAAAAAA=</HashCode>
-      <FileName>Predictors\ChaoticNetwork\Nodes\Input.cs</FileName>
-    </TypeIdentifier>
-    <Lollipop Position="0.2" />
-  </Class>
-  <Class Name="TrendPredictorLib.Network">
-    <Position X="5.5" Y="0.5" Width="1.5" />
-    <AssociationLine Name="Inputs" Type="TrendPredictorLib.Input">
+  <Class Name="TrendPredictorLib.Network" Collapsed="true">
+    <Position X="4.75" Y="0.5" Width="1.5" />
+    <AssociationLine Name="OperationFactory" Type="TrendPredictorLib.OperationFactory" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="6.25" Y="0.702" />
+        <Point X="10" Y="0.702" />
+        <Point X="10" Y="1.5" />
+      </Path>
       <MemberNameLabel ManuallyPlaced="true">
-        <Position X="-2.234" Y="1.425" />
+        <Position X="0.812" Y="1.001" />
       </MemberNameLabel>
     </AssociationLine>
-    <AssociationLine Name="OperationFactory" Type="TrendPredictorLib.OperationFactory">
+    <AssociationLine Name="Output" Type="TrendPredictorLib.CopyNode" ManuallyRouted="true">
+      <Path>
+        <Point X="6.25" Y="0.913" />
+        <Point X="7.738" Y="0.913" />
+        <Point X="7.738" Y="4" />
+      </Path>
       <MemberNameLabel ManuallyPlaced="true">
-        <Position X="1.12" Y="1.248" />
+        <Position X="0.452" Y="4.015" />
       </MemberNameLabel>
     </AssociationLine>
-    <AssociationLine Name="Output" Type="TrendPredictorLib.CopyNode">
+    <AssociationLine Name="Inputs" Type="TrendPredictorLib.CopyNode" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="6.125" Y="1.062" />
+        <Point X="6.125" Y="1.437" />
+        <Point X="7.164" Y="1.437" />
+        <Point X="7.164" Y="4" />
+      </Path>
       <MemberNameLabel ManuallyPlaced="true">
-        <Position X="0.485" Y="3.8" />
+        <Position X="0.375" Y="2.259" />
       </MemberNameLabel>
     </AssociationLine>
     <AssociationLine Name="Nodes" Type="TrendPredictorLib.Node">
       <MemberNameLabel ManuallyPlaced="true">
-        <Position X="0.12" Y="0.3" />
+        <Position X="0.174" Y="1.561" />
       </MemberNameLabel>
     </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AAAgAAAAAAAAAAAAAAAIAAAAEAAAAAAAAAAAAAgAAAA=</HashCode>
+      <HashCode>AABgAAAAAAAAAAACAAAIAEAAEAAAAAAAACAAAAgAAAA=</HashCode>
       <FileName>Predictors\ChaoticNetwork\Network.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -44,73 +52,60 @@
     </ShowAsCollectionAssociation>
   </Class>
   <Class Name="TrendPredictorLib.AddNode" Collapsed="true">
-    <Position X="4" Y="6.25" Width="1.5" />
+    <Position X="4" Y="4" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>BAAAAAAAAAAAAAEAAAAAAAAAACAAAAAAAAAgAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Predictors\ChaoticNetwork\Nodes\AddNode.cs</FileName>
     </TypeIdentifier>
-    <Lollipop Position="0.2" />
   </Class>
   <Class Name="TrendPredictorLib.MultiplyNode" Collapsed="true">
-    <Position X="4" Y="7.25" Width="1.5" />
+    <Position X="4" Y="5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>BAAAAAAAAAAAAAEAAAAAAAAAACAAAAAAAAAgAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Predictors\ChaoticNetwork\Nodes\MultiplyNode.cs</FileName>
     </TypeIdentifier>
-    <Lollipop Position="0.2" />
   </Class>
   <Class Name="TrendPredictorLib.OperationFactory">
-    <Position X="8.75" Y="2" Width="1.5" />
+    <Position X="9.25" Y="1.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABA=</HashCode>
       <FileName>Predictors\ChaoticNetwork\OperationFactory.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="TrendPredictorLib.InverseNode" Collapsed="true">
-    <Position X="7.75" Y="6.25" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>BAAAAAAAAAAAAAEAAAAAAAAAACAAAAAAAAAgAAAAAAA=</HashCode>
-      <FileName>Predictors\ChaoticNetwork\Nodes\InverseNode.cs</FileName>
-    </TypeIdentifier>
-    <Lollipop Position="0.2" />
-  </Class>
-  <Class Name="TrendPredictorLib.ReverseNode" Collapsed="true">
-    <Position X="7.75" Y="7.25" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>BAAAAAAAAAAAAAEAAAAAAAAAACAAAAAAAAAgAAAAAAA=</HashCode>
-      <FileName>Predictors\ChaoticNetwork\Nodes\ReverseNode.cs</FileName>
-    </TypeIdentifier>
-    <Lollipop Position="0.2" />
-  </Class>
-  <Class Name="TrendPredictorLib.LogNode" Collapsed="true">
-    <Position X="7.75" Y="8.25" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>BAAAAAAAAAAAAAEAAAAAAAAAACAAAAAAAAAgAAAAAAA=</HashCode>
-      <FileName>Predictors\ChaoticNetwork\Nodes\LogNode.cs</FileName>
-    </TypeIdentifier>
-    <Lollipop Position="0.2" />
-  </Class>
-  <Class Name="TrendPredictorLib.CopyNode" Collapsed="true">
-    <Position X="7.75" Y="5.25" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>BAAAAAAAAAAAAAEAAAAAAAAAACAAAAAAAAAgAAAAAAA=</HashCode>
-      <FileName>Predictors\ChaoticNetwork\Nodes\CopyNode.cs</FileName>
-    </TypeIdentifier>
-    <Lollipop Position="0.2" />
-  </Class>
-  <Interface Name="TrendPredictorLib.Node">
-    <Position X="5.5" Y="2" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>BAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAgAAAAAAA=</HashCode>
-      <FileName>Predictors\ChaoticNetwork\Nodes\Node.cs</FileName>
-    </TypeIdentifier>
-  </Interface>
-  <Interface Name="TrendPredictorLib.Operation">
-    <Position X="5.5" Y="4.25" Width="1.5" />
+    <Position X="6.75" Y="6" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Predictors\ChaoticNetwork\Nodes\Operations.cs</FileName>
+      <FileName>Predictors\ChaoticNetwork\Nodes\InverseNode.cs</FileName>
     </TypeIdentifier>
-  </Interface>
+  </Class>
+  <Class Name="TrendPredictorLib.ReverseNode" Collapsed="true">
+    <Position X="6.75" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Predictors\ChaoticNetwork\Nodes\ReverseNode.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TrendPredictorLib.LogNode" Collapsed="true">
+    <Position X="6.75" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Predictors\ChaoticNetwork\Nodes\LogNode.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TrendPredictorLib.CopyNode" Collapsed="true">
+    <Position X="6.75" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Predictors\ChaoticNetwork\Nodes\CopyNode.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TrendPredictorLib.Node" Collapsed="true">
+    <Position X="5.25" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAAAAAAAAAAAAAAAAAAAAAAECAgAAAAAAEhAAAAAAA=</HashCode>
+      <FileName>Predictors\ChaoticNetwork\Nodes\Node.cs</FileName>
+    </TypeIdentifier>
+  </Class>
   <Font Name="Segoe UI" Size="9" />
 </ClassDiagram>

@@ -5,34 +5,17 @@ using System.Text;
 
 namespace TrendPredictorLib
 {
-    public class CopyNode : Operation
+    public class CopyNode : Node
     {
+        public CopyNode()
+            : base(1)
+        {
 
-        public bool Calculate()
+        }
+
+        protected override double Calculate(List<double> args)
         {
             throw new NotImplementedException();
-        }
-
-        public List<Node> Outputs
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        public bool Ready
-        {
-            get { throw new NotImplementedException(); }
-        }
-
-        public double Value
-        {
-            get { throw new NotImplementedException(); }
         }
     }
 }

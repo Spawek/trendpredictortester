@@ -7,7 +7,7 @@ namespace TrendPredictorLib
 {
     public class OperationFactory
     {
-        public Operation CreateOperation()
+        public Node CreateOperation()
         {
             throw new System.NotImplementedException();
         }

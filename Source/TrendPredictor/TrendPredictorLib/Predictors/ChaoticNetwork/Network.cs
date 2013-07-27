@@ -7,48 +7,51 @@ namespace TrendPredictorLib
 {
     public class Network
     {
-        public List<Node> Nodes
+        private List<DataPoint> trainingData_;
+        private int inputsNo_;
+
+        public Network(List<DataPoint> trainingData)
         {
-            get
-            {
-                throw new System.NotImplementedException();
-            }
-            set
-            {
-            }
+            ValidateAndCopyTrainingData(trainingData);
+            BuildNetworkBasis();
         }
 
-        public List<Input> Inputs
+        private void BuildNetworkBasis()
         {
-            get
+            Nodes = new List<Node>();
+            Inputs = new List<CopyNode>();
+
+            for (int i = 0; i < inputsNo_; i++)
             {
-                throw new System.NotImplementedException();
+                CopyNode input = new CopyNode();
+
+                Inputs.Add(input);
+                Nodes.Add(input);
             }
-            set
-            {
-            }
+            Output = new CopyNode(); //NODE: output is not on node list
         }
 
-        public CopyNode Output
+        private void ValidateAndCopyTrainingData(List<DataPoint> trainingData)
         {
-            get
+            if (trainingData.Count < 2)
+                throw new ArgumentException();
+
+            inputsNo_ = trainingData_[0].input.Count;
+            if (inputsNo_ < 1)
+                throw new ArgumentException();
+
+            foreach (var item in trainingData)
             {
-                throw new System.NotImplementedException();
+                if (item.input.Count != inputsNo_)
+                    throw new ArgumentException();
             }
-            set
-            {
-            }
+
+            trainingData_ = new List<DataPoint>(trainingData);  // copied for safety
         }
 
-        public OperationFactory OperationFactory
-        {
-            get
-            {
-                throw new System.NotImplementedException();
-            }
-            set
-            {
-            }
-        }
+        private List<Node> Nodes { get; set; }
+        private List<CopyNode> Inputs { get; set; }
+        private CopyNode Output { get; set; }
+        private OperationFactory OperationFactory { get; set; }
     }
 }

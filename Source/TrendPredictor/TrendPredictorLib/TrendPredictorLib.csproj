@@ -44,7 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Predictors\ChaoticNetwork\Nodes\CopyNode.cs" />
-    <Compile Include="Predictors\ChaoticNetwork\Nodes\Operations.cs" />
+    <Compile Include="Predictors\ChaoticNetwork\Nodes\OperationNode.cs" />
     <Compile Include="Predictors\ChaoticNetwork\Nodes\AddNode.cs" />
     <Compile Include="DataProvider\DataBase.cs" />
     <Compile Include="DataProvider\DataBaseProvider.cs" />
@@ -53,7 +53,7 @@
     <Compile Include="DataProvider\FileDataBaseProvider.cs" />
     <Compile Include="Helpers.cs" />
     <Compile Include="DataProvider\IndicatorsCalculator.cs" />
-    <Compile Include="Predictors\ChaoticNetwork\Nodes\Input.cs" />
+    <Compile Include="Predictors\ChaoticNetwork\Nodes\InputNode.cs" />
     <Compile Include="Predictors\ChaoticNetwork\Nodes\InverseNode.cs" />
     <Compile Include="Predictors\ChaoticNetwork\Nodes\LogNode.cs" />
     <Compile Include="MainClass.cs" />

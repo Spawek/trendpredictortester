@@ -5,39 +5,17 @@ using System.Text;
 
 namespace TrendPredictorLib
 {
-    public class MultiplyNode : Operation
+    public class MultiplyNode : Node
     {
-        public MultiplyNode(string arg1, string arg2)
+        public MultiplyNode()
+            : base(2)
         {
-            throw new System.NotImplementedException();
+
         }
 
-
-        public bool Calculate()
+        protected override double Calculate(List<double> args)
         {
             throw new NotImplementedException();
-        }
-
-        public List<Node> Outputs
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        public bool Ready
-        {
-            get { throw new NotImplementedException(); }
-        }
-
-        public double Value
-        {
-            get { throw new NotImplementedException(); }
         }
     }
 }

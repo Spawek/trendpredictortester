@@ -5,8 +5,4 @@ using System.Text;
 
 namespace TrendPredictorLib
 {
-    public interface Operation : Node
-    {
-        bool Calculate();
-    }
 }

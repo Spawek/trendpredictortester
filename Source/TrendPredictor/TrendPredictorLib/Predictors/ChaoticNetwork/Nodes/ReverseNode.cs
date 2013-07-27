@@ -5,39 +5,17 @@ using System.Text;
 
 namespace TrendPredictorLib
 {
-    public class ReverseNode : Operation
+    public class ReverseNode : Node
     {
-        public ReverseNode(string arg)
+        public ReverseNode()
+            : base(1)
         {
-            throw new System.NotImplementedException();
+
         }
 
-
-        public bool Calculate()
+        protected override double Calculate(List<double> args)
         {
             throw new NotImplementedException();
-        }
-
-        public List<Node> Outputs
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        public bool Ready
-        {
-            get { throw new NotImplementedException(); }
-        }
-
-        public double Value
-        {
-            get { throw new NotImplementedException(); }
         }
     }
 }

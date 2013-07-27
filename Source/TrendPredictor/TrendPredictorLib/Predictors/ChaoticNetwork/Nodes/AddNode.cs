@@ -5,38 +5,17 @@ using System.Text;
 
 namespace TrendPredictorLib
 {
-    public class AddNode : Operation
+    public class AddNode : Node
     {
-        public AddNode(Node arg1, Node arg2)
+        public AddNode()
+            : base(2)
         {
-            throw new System.NotImplementedException();
+
         }
 
-        public bool Calculate()
+        protected override double Calculate(List<double> args)
         {
             throw new NotImplementedException();
-        }
-
-        public List<Node> Outputs
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        public bool Ready
-        {
-            get { throw new NotImplementedException(); }
-        }
-
-        public double Value
-        {
-            get { throw new NotImplementedException(); }
         }
     }
 }
