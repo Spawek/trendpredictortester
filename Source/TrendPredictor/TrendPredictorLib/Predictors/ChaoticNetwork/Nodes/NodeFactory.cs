@@ -7,12 +7,12 @@ namespace TrendPredictorLib
 {
     public class NodeFactory
     {
-        private Dictionary<NodeTypes, double> typeDistributionMap_;
+        private Dictionary<NodeType, double> typeDistributionMap_;
         double typeDistributionMapMax_;
         Random rand_ = new Random();
         NodeFuncGenerator funcGenerator_;
 
-        public NodeFactory(NodeFuncGenerator funcGenerator, IDictionary<NodeTypes, double> probabilityMap)
+        public NodeFactory(NodeFuncGenerator funcGenerator, IDictionary<NodeType, double> probabilityMap)
         {
             if (probabilityMap.Count == 0)
                 throw new ArgumentException();
@@ -25,7 +25,7 @@ namespace TrendPredictorLib
 
             funcGenerator_ = funcGenerator;
 
-            typeDistributionMap_ = new Dictionary<NodeTypes, double>(probabilityMap);
+            typeDistributionMap_ = new Dictionary<NodeType, double>(probabilityMap);
             double sum = 0.0d;
             for (int i = 0; i < probabilityMap.Count; i++)
             {
@@ -35,7 +35,7 @@ namespace TrendPredictorLib
             typeDistributionMapMax_ = sum;
         }
 
-        private NodeTypes GenerateRandomNodeType()
+        private NodeType GenerateRandomNodeType()
         {
             double randomNo = rand_.NextDouble() * typeDistributionMapMax_;
             return typeDistributionMap_.First(x => x.Value > randomNo).Key;
@@ -51,19 +51,18 @@ namespace TrendPredictorLib
             return CreateNode(GenerateRandomNodeType());
         }
 
-        public Node CreateNode(NodeTypes type)
+        public Node CreateNode(NodeType type)
         {
-           return new Node(funcGenerator_.GenerateFunc(type));
+           return new Node(type);
         }
 
-        public void TransformNode(Node node, NodeTypes targetType)
+        public void TransformNode(Node node, NodeType targetType)
         {
-            node.Transform(funcGenerator_.GenerateFunc(targetType));
+            node.Transform(targetType);
         }
 
         public void RandomlyTransformNode(Node node)
         {
-
             TransformNode(node, GenerateRandomNodeType());
         }
     }

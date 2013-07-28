@@ -30,9 +30,9 @@ namespace TrendPredictorLib
 
             for (int i = 0; i < inputsNo_; i++)
             {
-                Inputs.Add(NodeFactory.CreateNode(NodeTypes.copy));
+                Inputs.Add(NodeFactory.CreateNode(NodeType.copy));
             }
-            Output = NodeFactory.CreateNode(NodeTypes.copy);
+            Output = NodeFactory.CreateNode(NodeType.copy);
 
             Inputs[0].ConnectWithOutput(Output);
         }

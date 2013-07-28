@@ -3,7 +3,7 @@
   <Class Name="TrendPredictorLib.Node">
     <Position X="11.25" Y="1.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>BAgAAAAAAAAABAAAAAgAAAQAEAAgAQIAAAEgAAAAAAA=</HashCode>
+      <HashCode>JAgAAAAAAAAABAAAAAgAAAQAEAAgAQIAAAEgAAAAAAA=</HashCode>
       <FileName>Predictors\ChaoticNetwork\Nodes\Node.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -39,11 +39,11 @@
       <Property Name="Operations" />
     </ShowAsCollectionAssociation>
   </Class>
-  <Enum Name="TrendPredictorLib.NodeTypes">
+  <Enum Name="TrendPredictorLib.NodeType">
     <Position X="0.5" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAgAAAAAACAAAAQAAAAIAAAAAAAACQAA=</HashCode>
-      <FileName>Predictors\ChaoticNetwork\Nodes\NodeTypes.cs</FileName>
+      <FileName>Predictors\ChaoticNetwork\Nodes\NodeType.cs</FileName>
     </TypeIdentifier>
   </Enum>
   <Font Name="Segoe UI" Size="9" />

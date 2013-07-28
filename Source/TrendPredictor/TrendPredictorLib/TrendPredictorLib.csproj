@@ -44,7 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Predictors\ChaoticNetwork\Nodes\NodeFuncGenerator.cs" />
-    <Compile Include="Predictors\ChaoticNetwork\Nodes\NodeTypes.cs" />
+    <Compile Include="Predictors\ChaoticNetwork\Nodes\NodeType.cs" />
     <Compile Include="DataProvider\DataBase.cs" />
     <Compile Include="DataProvider\DataBaseProvider.cs" />
     <Compile Include="DataProvider\DataPoint.cs" />

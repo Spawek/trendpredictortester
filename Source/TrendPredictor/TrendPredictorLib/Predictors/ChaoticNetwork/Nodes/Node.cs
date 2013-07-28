@@ -12,15 +12,16 @@ namespace TrendPredictorLib
 
         private List<double> arguments = new List<double>(PARENTS_NO);
         private Func<List<double>, double> calculateFoo_;
+        private NodeType nodeType_;
 
         public List<Node> Inputs = new List<Node>(PARENTS_NO);
         public List<Node> Outputs = new List<Node>();
 
         public double Value { get; private set; }
 
-        public Node(Func<List<double>, double> calculateFoo)
+        public Node(NodeType nodeType)
         {
-            calculateFoo_ = calculateFoo;
+            Transform(nodeType);
         }
 
         /// <summary>
@@ -45,9 +46,10 @@ namespace TrendPredictorLib
             }
         }
 
-        public void Transform(Func<List<double>, double> calculateFoo)
+        public void Transform(NodeType nodeType)
         {
-            calculateFoo_ = calculateFoo;
+            nodeType_ = nodeType;
+            calculateFoo_ = NodeFuncGenerator.GenerateFunc(nodeType);
         }
 
         public void ConnectWithOutput(Node output)

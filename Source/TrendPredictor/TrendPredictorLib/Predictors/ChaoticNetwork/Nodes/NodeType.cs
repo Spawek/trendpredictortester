@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TrendPredictorLib
 {
-    public enum NodeTypes
+    public enum NodeType
     {
         add, // x + y
         multiply, // x*y

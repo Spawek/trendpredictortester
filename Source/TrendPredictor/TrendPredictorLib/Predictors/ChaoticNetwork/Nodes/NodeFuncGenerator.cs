@@ -8,29 +8,29 @@ namespace TrendPredictorLib
 {
     public class NodeFuncGenerator
     {
-        public Func<List<double>, double> GenerateFunc(NodeTypes type)
+        public static Func<List<double>, double> GenerateFunc(NodeType type)
         {
             switch (type)
             {
-                case NodeTypes.add:
+                case NodeType.add:
                     return Add;
 
-                case NodeTypes.multiply:
+                case NodeType.multiply:
                     return Multiply;
 
-                case NodeTypes.compare:
+                case NodeType.compare:
                     return Compare;
 
-                case NodeTypes.inverse:
+                case NodeType.inverse:
                     return Inverse;
 
-                case NodeTypes.reverse:
+                case NodeType.reverse:
                     return Reverse;
 
-                case NodeTypes.log:
+                case NodeType.log:
                     return Log;
 
-                case NodeTypes.copy:
+                case NodeType.copy:
                     return Copy;
 
                 default:
