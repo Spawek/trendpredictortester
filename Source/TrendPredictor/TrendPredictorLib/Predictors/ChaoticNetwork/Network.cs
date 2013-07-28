@@ -7,28 +7,34 @@ namespace TrendPredictorLib
 {
     public class Network
     {
+        private List<Node> Operations { get; set; }
+        private List<Node> Inputs { get; set; }
+        private Node Output { get; set; }
+        private NodeFactory NodeFactory { get; set; }
+
         private List<DataPoint> trainingData_;
         private int inputsNo_;
 
-        public Network(List<DataPoint> trainingData)
+        public Network(NodeFactory nodeFactory, List<DataPoint> trainingData)
         {
+            NodeFactory = nodeFactory;
+
             ValidateAndCopyTrainingData(trainingData);
             BuildNetworkBasis();
         }
 
         private void BuildNetworkBasis()
         {
-            Nodes = new List<Node>();
-            Inputs = new List<CopyNode>();
+            Operations = new List<Node>();
+            Inputs = new List<Node>();
 
             for (int i = 0; i < inputsNo_; i++)
             {
-                CopyNode input = new CopyNode();
-
-                Inputs.Add(input);
-                Nodes.Add(input);
+                Inputs.Add(NodeFactory.CreateNode(NodeTypes.copy));
             }
-            Output = new CopyNode(); //NODE: output is not on node list
+            Output = NodeFactory.CreateNode(NodeTypes.copy);
+
+            Inputs[0].ConnectWithOutput(Output);
         }
 
         private void ValidateAndCopyTrainingData(List<DataPoint> trainingData)
@@ -49,9 +55,5 @@ namespace TrendPredictorLib
             trainingData_ = new List<DataPoint>(trainingData);  // copied for safety
         }
 
-        private List<Node> Nodes { get; set; }
-        private List<CopyNode> Inputs { get; set; }
-        private CopyNode Output { get; set; }
-        private OperationFactory OperationFactory { get; set; }
     }
 }
