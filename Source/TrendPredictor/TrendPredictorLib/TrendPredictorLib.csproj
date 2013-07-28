@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Predictors\ChaoticNetwork\NetworkTeacher.cs" />
     <Compile Include="Predictors\ChaoticNetwork\Nodes\NodeFuncGenerator.cs" />
     <Compile Include="Predictors\ChaoticNetwork\Nodes\NodeType.cs" />
     <Compile Include="DataProvider\DataBase.cs" />
@@ -61,6 +62,7 @@
   <ItemGroup>
     <None Include="ClassDiagram.cd" />
     <None Include="Predictors\ChaoticNetwork\ClassDiagram.cd" />
+    <None Include="Predictors\ChaoticNetwork\NetworkTransformation.sequencediagram" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\WindowsFormsPlotter\WindowsFormsPlotter.csproj">
@@ -68,7 +70,11 @@
       <Name>WindowsFormsPlotter</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Predictors\ChaoticNetwork\NetworkTransformation.sequencediagram.layout">
+      <DependentUpon>NetworkTransformation.sequencediagram</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -27,7 +27,7 @@
   <Class Name="TrendPredictorLib.Network">
     <Position X="8.5" Y="1.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AABAAAACAAAAAAACAAAIAFAAEAAAAAAAACAAAAAAAAA=</HashCode>
+      <HashCode>AABAEAACAAAAAAACAAAIAFAAEAAAAAAAACAAAAAAAAA=</HashCode>
       <FileName>Predictors\ChaoticNetwork\Network.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>

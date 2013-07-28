@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using TrendPredictorLib;
 
 namespace TrendPredictorLib
 {
@@ -15,7 +16,7 @@ namespace TrendPredictorLib
         private List<DataPoint> trainingData_;
         private int inputsNo_;
 
-        public Network(NodeFactory nodeFactory, List<DataPoint> trainingData)
+        public Network(NodeFactory nodeFactory, NetworkTeacher teacher, List<DataPoint> trainingData)
         {
             NodeFactory = nodeFactory;
 
@@ -23,9 +24,29 @@ namespace TrendPredictorLib
             BuildNetworkBasis();
         }
 
+        public double CalculateTrainingSqrError()
+        {
+            double error = 0.0;
+            foreach (DataPoint trainingPoint in trainingData_)
+            {
+                for (int i = 0; i < inputsNo_; i++)
+                {
+                    Inputs[i].ProvideArgument(trainingPoint.input[i]);
+                }
+                error += Math.Pow(Output.Value - trainingPoint.output, 2.0d);
+            }
+
+            return error;
+        }
+
+        /// <summary>
+        /// input1 -> copyNode -> output
+        /// </summary>
         private void BuildNetworkBasis()
         {
             Operations = new List<Node>();
+            Operations.Add(NodeFactory.CreateNode(NodeType.copy));
+
             Inputs = new List<Node>();
 
             for (int i = 0; i < inputsNo_; i++)
@@ -34,7 +55,7 @@ namespace TrendPredictorLib
             }
             Output = NodeFactory.CreateNode(NodeType.copy);
 
-            Inputs[0].ConnectWithOutput(Output);
+            Inputs[0].ConnectWithOutput(Operations[0]);
         }
 
         private void ValidateAndCopyTrainingData(List<DataPoint> trainingData)
