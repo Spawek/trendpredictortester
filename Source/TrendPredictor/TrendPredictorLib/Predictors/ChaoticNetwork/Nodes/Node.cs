@@ -14,10 +14,11 @@ namespace TrendPredictorLib
         private Func<List<double>, double> calculateFoo_;
         private NodeType nodeType_;
 
-        public List<Node> Inputs = new List<Node>(PARENTS_NO);
-        public List<Node> Outputs = new List<Node>();
+        public LinkedList<Node> Inputs = new LinkedList<Node>();
+        public LinkedList<Node> Outputs = new LinkedList<Node>();
 
         public double Value { get; private set; }
+        public NodeType NodeType { get { return nodeType_; } }
 
         public Node(NodeType nodeType)
         {
@@ -32,12 +33,12 @@ namespace TrendPredictorLib
             if (Inputs.Count() == 0)
                 throw new ApplicationException("its input node - cant remove it");
 
-            Node nodeToConnectOutputsTo = Inputs[0];
+            Node nodeToConnectOutputsTo = Inputs.First();
             foreach (var item in Outputs)
             {
                 item.Inputs.Remove(this);
-                item.Inputs.Add(nodeToConnectOutputsTo);
-                nodeToConnectOutputsTo.Outputs.Add(item);
+                item.Inputs.AddLast(nodeToConnectOutputsTo);
+                nodeToConnectOutputsTo.Outputs.AddLast(item);
             }
 
             foreach (var item in Inputs)
@@ -57,8 +58,8 @@ namespace TrendPredictorLib
             if (output.Inputs.Count == PARENTS_NO)
                 throw new ApplicationException("output node already has all it inputs");
 
-            Outputs.Add(output);
-            output.Inputs.Add(this);
+            Outputs.AddLast(output);
+            output.Inputs.AddLast(this);
         }
 
         public void Reset()

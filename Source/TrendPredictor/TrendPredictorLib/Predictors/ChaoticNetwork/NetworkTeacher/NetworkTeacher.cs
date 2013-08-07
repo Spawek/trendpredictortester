@@ -5,7 +5,7 @@ using System.Text;
 
 namespace TrendPredictorLib
 {
-    class NetworkTeacher
+    public class NetworkTeacher
     {
     }
 }

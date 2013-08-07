@@ -39,8 +39,21 @@ namespace TrendPredictorLib
             return error;
         }
 
+        public void ApplyPatch(NetworkPatch networkPatch)
+        {
+
+        }
+
+        public void RevertPatch(NetworkPatch networkPatch)
+        {
+
+        }
+
         /// <summary>
         /// input1 -> copyNode -> output
+        /// input2(not connected)
+        /// ...
+        /// inputn
         /// </summary>
         private void BuildNetworkBasis()
         {
@@ -56,6 +69,7 @@ namespace TrendPredictorLib
             Output = NodeFactory.CreateNode(NodeType.copy);
 
             Inputs[0].ConnectWithOutput(Operations[0]);
+            Inputs[1].ConnectWithOutput(Operations[0]);
         }
 
         private void ValidateAndCopyTrainingData(List<DataPoint> trainingData)

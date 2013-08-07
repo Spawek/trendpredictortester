@@ -43,7 +43,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Predictors\ChaoticNetwork\NetworkTeacher.cs" />
+    <Compile Include="Predictors\ChaoticNetwork\NetworkTeacher\Mutators\AddRemoveNode.cs" />
+    <Compile Include="Predictors\ChaoticNetwork\NetworkTeacher\Mutators\NetworkMutator.cs" />
+    <Compile Include="Predictors\ChaoticNetwork\NetworkTeacher\Mutators\NetworkPatch.cs" />
+    <Compile Include="Predictors\ChaoticNetwork\NetworkTeacher\NetworkTeacher.cs" />
+    <Compile Include="Predictors\ChaoticNetwork\NetworkTeacher\Mutators\NodeTypeChange.cs" />
     <Compile Include="Predictors\ChaoticNetwork\Nodes\NodeFuncGenerator.cs" />
     <Compile Include="Predictors\ChaoticNetwork\Nodes\NodeType.cs" />
     <Compile Include="DataProvider\DataBase.cs" />
@@ -62,7 +66,7 @@
   <ItemGroup>
     <None Include="ClassDiagram.cd" />
     <None Include="Predictors\ChaoticNetwork\ClassDiagram.cd" />
-    <None Include="Predictors\ChaoticNetwork\NetworkTransformation.sequencediagram" />
+    <None Include="Predictors\ChaoticNetwork\NetworkTeacher\NetworkTransformation.sequencediagram" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\WindowsFormsPlotter\WindowsFormsPlotter.csproj">
@@ -71,7 +75,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Predictors\ChaoticNetwork\NetworkTransformation.sequencediagram.layout">
+    <EmbeddedResource Include="Predictors\ChaoticNetwork\NetworkTeacher\NetworkTransformation.sequencediagram.layout">
       <DependentUpon>NetworkTransformation.sequencediagram</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
