@@ -20,5 +20,17 @@ namespace TrendPredictorLibUnitTests
             Assert.AreEqual(21, Helpers.ModifiedFibbonacci(7));
             Assert.AreEqual(34, Helpers.ModifiedFibbonacci(8));
         }
+
+        [TestMethod]
+        public void SwapTest()
+        {
+            int a = 4;
+            int b = 7;
+
+            Helpers.Swap(ref a, ref b);
+
+            Assert.AreEqual(7, a);
+            Assert.AreEqual(4, b);
+        }
     }
 }

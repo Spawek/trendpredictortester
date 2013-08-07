@@ -24,5 +24,12 @@ namespace TrendPredictorLib
 
             return ModFibbonacciDb[index];
         }
+
+        public static void Swap<T>(ref T x, ref T y)
+        {
+            T tmp = y;
+            y = x;
+            x = tmp;
+        }
     }
 }
