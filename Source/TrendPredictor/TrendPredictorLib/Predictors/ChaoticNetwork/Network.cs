@@ -8,15 +8,15 @@ namespace TrendPredictorLib
 {
     public class Network
     {
-        private List<Node> Operations { get; set; }
-        private List<Node> Inputs { get; set; }
+        public List<Node> Operations { get; private set; }
+        public List<Node> Inputs { get; private set; }
         private Node Output { get; set; }
         private NodeFactory NodeFactory { get; set; }
 
         private List<DataPoint> trainingData_;
         private int inputsNo_;
 
-        public Network(NodeFactory nodeFactory, NetworkTeacher teacher, List<DataPoint> trainingData)
+        public Network(NodeFactory nodeFactory, List<DataPoint> trainingData)
         {
             NodeFactory = nodeFactory;
 
@@ -37,16 +37,6 @@ namespace TrendPredictorLib
             }
 
             return error;
-        }
-
-        public void ApplyPatch(NetworkPatch networkPatch)
-        {
-
-        }
-
-        public void RevertPatch(NetworkPatch networkPatch)
-        {
-
         }
 
         /// <summary>
@@ -70,6 +60,7 @@ namespace TrendPredictorLib
 
             Inputs[0].ConnectWithOutput(Operations[0]);
             Inputs[1].ConnectWithOutput(Operations[0]);
+            Operations[0].ConnectWithOutput(Output);
         }
 
         private void ValidateAndCopyTrainingData(List<DataPoint> trainingData)
@@ -77,7 +68,7 @@ namespace TrendPredictorLib
             if (trainingData.Count < 2)
                 throw new ArgumentException();
 
-            inputsNo_ = trainingData_[0].input.Count;
+            inputsNo_ = trainingData[0].input.Count;
             if (inputsNo_ < 1)
                 throw new ArgumentException();
 

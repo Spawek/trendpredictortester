@@ -8,9 +8,9 @@ namespace TrendPredictorLib
     public class NodeFactory
     {
         private Dictionary<NodeType, double> typeDistributionMap_;
-        double typeDistributionMapMax_;
-        Random rand_ = new Random();
-        NodeFuncGenerator funcGenerator_;
+        private double typeDistributionMapMax_;
+        private Random rand_ = new Random();
+        private NodeFuncGenerator funcGenerator_;
 
         public NodeFactory(NodeFuncGenerator funcGenerator, IDictionary<NodeType, double> probabilityMap)
         {
@@ -25,7 +25,7 @@ namespace TrendPredictorLib
 
             funcGenerator_ = funcGenerator;
 
-            typeDistributionMap_ = new Dictionary<NodeType, double>(probabilityMap);
+            typeDistributionMap_ = new Dictionary<NodeType, double>();
             double sum = 0.0d;
             for (int i = 0; i < probabilityMap.Count; i++)
             {
@@ -35,7 +35,7 @@ namespace TrendPredictorLib
             typeDistributionMapMax_ = sum;
         }
 
-        private NodeType GenerateRandomNodeType()
+        public NodeType GenerateRandomNodeType()
         {
             double randomNo = rand_.NextDouble() * typeDistributionMapMax_;
             return typeDistributionMap_.First(x => x.Value > randomNo).Key;

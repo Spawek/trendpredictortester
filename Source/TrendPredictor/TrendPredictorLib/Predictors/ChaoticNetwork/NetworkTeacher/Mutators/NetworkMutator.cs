@@ -16,7 +16,7 @@ namespace TrendPredictorLib
 
         public void Apply()
         {
-            if (wasApplied)
+            if (wasApplied && !wasReverted)
                 throw new ApplicationException();
 
             ApplyAction();

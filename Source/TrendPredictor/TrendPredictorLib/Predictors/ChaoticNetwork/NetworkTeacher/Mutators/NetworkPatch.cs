@@ -7,7 +7,7 @@ namespace TrendPredictorLib
 {
     public class NetworkPatch
     {
-        public List<NetworkMutator> mutators_;
+        public List<NetworkMutator> mutators_ = new List<NetworkMutator>();
 
         public void Apply()
         {

@@ -9,7 +9,7 @@ namespace TrendPredictorLib
 {
     class MainClass
     {
-        static void Main(string[] args)
+        static void OldMain(string[] args)
         {
             FileDataBaseProvider dbProvider = new FileDataBaseProvider("../../../../../Data/EURUSD.csv");
             DataBase inputDb = dbProvider.GetDataBase();
@@ -38,6 +38,11 @@ namespace TrendPredictorLib
 
             Console.WriteLine("Press any button");
             Console.ReadKey();
+        }
+
+        static void Main(string[] args)
+        {
+            TeacherTester teacherTester = new TeacherTester();
         }
     }
 }

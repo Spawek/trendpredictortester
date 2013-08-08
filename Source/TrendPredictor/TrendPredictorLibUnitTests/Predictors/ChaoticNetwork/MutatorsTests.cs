@@ -1,12 +1,40 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TrendPredictorLib;
+using System.Collections.Generic;
+
 
 namespace TrendPredictorLibUnitTests
 {
     [TestClass]
     public class MutatorsTests
     {
+        //its not good idea - but its needed in addRemoveMutators //BAD DESIGN!!!
+        private Network dummyNetwork;
+
+        [TestInitialize()]
+        public void Initialize()
+        {
+            NodeFactory nodeFactory = new NodeFactory(
+                new NodeFuncGenerator(),
+                new Dictionary<NodeType, double>()
+                {
+                    {NodeType.add, 0.5d}, 
+                    {NodeType.compare, 0.5d}
+                }
+            );
+            DataPoint dp1 = new DataPoint();
+            dp1.input.Add(1.0d);
+            dp1.input.Add(2.0d);
+            DataPoint dp2 = new DataPoint();
+            dp2.input.Add(2.0d);
+            dp2.input.Add(3.0d);
+            dummyNetwork = new Network(
+                nodeFactory, 
+                new List<DataPoint>(){dp1, dp2}
+            ); 
+        }
+
         class DummyMutator : NetworkMutator
         {
             public int appliesCounter = 0;
@@ -114,6 +142,10 @@ namespace TrendPredictorLibUnitTests
             Node parent2 = new Node(NodeType.add);
             Node output = new Node(NodeType.add);
             parent1.ConnectWithOutput(output);
+            dummyNetwork.Operations.Add(parent1);
+            dummyNetwork.Operations.Add(parent2);
+            dummyNetwork.Operations.Add(output);
+
 
             Node nodeToBeAdded = new Node(NodeType.add);
             AddRemoveNode mutator = new AddRemoveNode(
@@ -121,7 +153,8 @@ namespace TrendPredictorLibUnitTests
                 node: nodeToBeAdded, 
                 parent1: parent1, 
                 parent2: parent2, 
-                output: output);
+                output: output,
+                network: dummyNetwork);
 
             mutator.Apply();
 
@@ -170,13 +203,19 @@ namespace TrendPredictorLibUnitTests
             parent2.ConnectWithOutput(nodeToBeRemoved);
             nodeToBeRemoved.ConnectWithOutput(output);
 
+            dummyNetwork.Operations.Add(parent1);
+            dummyNetwork.Operations.Add(parent2);
+            dummyNetwork.Operations.Add(output);
+
+
             Node nodeToBeAdded = new Node(NodeType.add);
             AddRemoveNode mutator = new AddRemoveNode(
                 nodeChangeType: AddRemoveNode.NodeChangeType.Remove,
                 node: nodeToBeRemoved,
                 parent1: parent1,
                 parent2: parent2,
-                output: output);
+                output: output,
+                network: dummyNetwork);
             mutator.Apply();
 
             Assert.AreEqual(0, parent1.Inputs.Count);
@@ -207,13 +246,18 @@ namespace TrendPredictorLibUnitTests
             Node output = new Node(NodeType.add);
             parent1.ConnectWithOutput(output);
 
+            dummyNetwork.Operations.Add(parent1);
+            dummyNetwork.Operations.Add(parent2);
+            dummyNetwork.Operations.Add(output);
+
             Node nodeToBeAdded = new Node(NodeType.add);
             AddRemoveNode mutator = new AddRemoveNode(
                 nodeChangeType: AddRemoveNode.NodeChangeType.Add,
                 node: nodeToBeAdded,
                 parent1: parent1,
                 parent2: parent2,
-                output: output);
+                output: output,
+                network: dummyNetwork);
 
             mutator.Apply();
             mutator.Revert();
@@ -251,12 +295,17 @@ namespace TrendPredictorLibUnitTests
             parent2.ConnectWithOutput(nodeToBeRemoved);
             nodeToBeRemoved.ConnectWithOutput(output);
 
+            dummyNetwork.Operations.Add(parent1);
+            dummyNetwork.Operations.Add(parent2);
+            dummyNetwork.Operations.Add(output);
+
             AddRemoveNode mutator = new AddRemoveNode(
                 nodeChangeType: AddRemoveNode.NodeChangeType.Remove,
                 node: nodeToBeRemoved,
                 parent1: parent1,
                 parent2: parent2,
-                output: output);
+                output: output,
+                network: dummyNetwork);
 
             mutator.Apply();
             mutator.Revert();

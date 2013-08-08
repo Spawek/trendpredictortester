@@ -22,6 +22,7 @@ namespace TrendPredictorLib
         private Node parent1_;
         private Node parent2_;
         private Node output_;
+        private Network network_; //ouch! ... //TODO: rethink if it is really needed in here
 
         protected override void ApplyAction()
         {
@@ -65,6 +66,8 @@ namespace TrendPredictorLib
             parent2_.Outputs.AddLast(node_);
 
             output_.Inputs.Find(parent1_).Value = node_;
+
+            network_.Operations.Add(node_);
         }
 
         private void RemoveNode()
@@ -78,9 +81,11 @@ namespace TrendPredictorLib
                 throw new ApplicationException();
 
             output_.Inputs.Find(node_).Value = parent1_;
+
+            network_.Operations.Remove(node_);
         }
 
-        public AddRemoveNode(NodeChangeType nodeChangeType, Node node, Node parent1, Node parent2, Node output)
+        public AddRemoveNode(NodeChangeType nodeChangeType, Node node, Node parent1, Node parent2, Node output, Network network)
         {
             if (node == null)
                 throw new ArgumentNullException("node");
@@ -99,6 +104,7 @@ namespace TrendPredictorLib
             parent1_ = parent1;
             parent2_ = parent2;
             output_ = output;
+            network_ = network;
         }
     }
 }
