@@ -72,17 +72,24 @@ namespace TrendPredictorLib
 
         private void RemoveNode()
         {
+            if (node_.Inputs.Count != 2)
+                throw new ApplicationException();
+
             node_.Inputs.Clear();
-            node_.Outputs.Clear();
 
             parent1_.Outputs.Find(node_).Value = output_;
 
             if (!parent2_.Outputs.Remove(node_))
                 throw new ApplicationException();
 
-            output_.Inputs.Find(node_).Value = parent1_;
+            foreach (Node output in node_.Outputs)
+            {
+                output.Inputs.Find(node_).Value = parent1_;
+            }
+            node_.Outputs.Clear();
 
-            network_.Operations.Remove(node_);
+            if (!network_.Operations.Remove(node_))
+                throw new ApplicationException();
         }
 
         public AddRemoveNode(NodeChangeType nodeChangeType, Node node, Node parent1, Node parent2, Node output, Network network)

@@ -29,6 +29,7 @@ namespace TrendPredictorLib
             double error = 0.0;
             foreach (DataPoint trainingPoint in trainingData_)
             {
+                ResetAllNodes();
                 for (int i = 0; i < inputsNo_; i++)
                 {
                     Inputs[i].ProvideArgument(trainingPoint.input[i]);
@@ -37,6 +38,19 @@ namespace TrendPredictorLib
             }
 
             return error;
+        }
+
+        private void ResetAllNodes()
+        {
+            foreach (var item in Operations)
+            {
+                item.Reset();
+            }
+            foreach (var item in Inputs)
+            {
+                item.Reset();
+            }
+            Output.Reset();
         }
 
         /// <summary>

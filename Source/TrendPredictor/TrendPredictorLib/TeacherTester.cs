@@ -53,7 +53,7 @@ namespace TrendPredictorLib
 
             Logger.Log(this, String.Format("initial error: {0}", network.CalculateTrainingSqrError()));
             networkTeacher.Teach(
-                teachingTime: TimeSpan.FromSeconds(2.0d),
+                teachingTime: TimeSpan.FromSeconds(60.0d),
                 wantedNoOfNodes: 2000,
                 changesPerPatch: 3,
                 patchesPerTeachingSerie: 30

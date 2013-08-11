@@ -47,7 +47,8 @@ namespace TrendPredictorLib
                 patch.Revert();
             }
 
-            double bestChange = patchesEfficiency.Min(x => x.Value);
+            //NOTE: what is interesting double.NaN is lowest possible number AND double.NaN != double.NaN //WTF??
+            double bestChange = patchesEfficiency.Min(x => double.IsNaN(x.Value)?double.PositiveInfinity:x.Value); 
             NetworkPatch bestPatch = patchesEfficiency.First(patch => patch.Value == bestChange).Key;
             if(!double.IsInfinity(patchesEfficiency[bestPatch]) || !double.IsNaN(patchesEfficiency[bestPatch]))
             {
