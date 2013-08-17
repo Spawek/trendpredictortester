@@ -19,10 +19,44 @@ namespace TrendPredictorLib
 
         public double Value { get; private set; }
         public NodeType NodeType { get { return nodeType_; } }
+        public int Hierarchy { get; private set; }
+        public int NodeID { get; private set; }
 
-        public Node(NodeType nodeType)
+        public const double MAGIC_NUMBER = -53532627245.453523643743;
+
+        public Node(NodeType nodeType, int hierarchy)
         {
             Transform(nodeType);
+            Hierarchy = hierarchy;
+#if DEBUG
+            NodeID = getNextNodeID();
+#endif
+        }
+
+        public override string ToString()
+        {
+            return NodeID.ToString();
+        }
+
+        private static int nextNodeID = 1;
+        private static int getNextNodeID()
+        {
+            return nextNodeID++;
+        }
+
+        public void checkIfNodeConnectionsAreCorrrect()
+        {
+            foreach (Node node in Inputs)
+            {
+                if (node.Outputs.Find(this) == null)
+                    throw new ApplicationException();
+            }
+
+            foreach (Node node in Outputs)
+            {
+                if (node.Inputs.Find(this) == null)
+                    throw new ApplicationException();
+            }
         }
 
         /// <summary>
@@ -58,8 +92,8 @@ namespace TrendPredictorLib
 
         public void ConnectWithOutput(Node output)
         {
-            //if (output.Inputs.Count == ParentsNo)
-            //    throw new ApplicationException("output node already has all it inputs"); //does not work with ne ParentsNo (1 for copy)
+            if (output.Inputs.Count == output.ParentsNo)
+                throw new ApplicationException("output node already has all it inputs"); //does not work with ne ParentsNo (1 for copy)
 
             Outputs.AddLast(output);
             output.Inputs.AddLast(this);
@@ -68,13 +102,15 @@ namespace TrendPredictorLib
         public void Reset()
         {
             arguments.Clear();
+#if DEBUG
+            Value = MAGIC_NUMBER;
+#endif
         }
 
         public void ProvideArgument(double arg)
         {
             arguments.Add(arg);
 
-            // when is only 1 argument needed its just 1st parameter taken (it could be 2nd - its not important)
             if (arguments.Count == ParentsNo)
             {
                 Value = calculateFoo_(arguments);

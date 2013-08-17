@@ -31,7 +31,8 @@ namespace TrendPredictorLibUnitTests
             dp2.input.Add(3.0d);
             dummyNetwork = new Network(
                 nodeFactory, 
-                new List<DataPoint>(){dp1, dp2}
+                new List<DataPoint>(){dp1, dp2},
+                1000
             ); 
         }
 
@@ -101,7 +102,7 @@ namespace TrendPredictorLibUnitTests
         [TestMethod]
         public void NodeTypeChangeApplyTest()
         {
-            Node node = new Node(NodeType.compare);
+            Node node = new Node(NodeType.compare, 0);
 
             NodeTypeChange mutator = new NodeTypeChange(node, NodeType.compare, NodeType.add);
             mutator.Apply();
@@ -112,7 +113,7 @@ namespace TrendPredictorLibUnitTests
         [TestMethod]
         public void NodeTypeChangeRevertTest()
         {
-            Node node = new Node(NodeType.compare);
+            Node node = new Node(NodeType.compare, 0);
 
             NodeTypeChange mutator = new NodeTypeChange(node, NodeType.compare, NodeType.add);
             mutator.Apply();
@@ -138,16 +139,16 @@ namespace TrendPredictorLibUnitTests
         [TestMethod]
         public void AddRemoveNodeApplyTest()
         {
-            Node parent1 = new Node(NodeType.add);
-            Node parent2 = new Node(NodeType.add);
-            Node output = new Node(NodeType.add);
+            Node parent1 = new Node(NodeType.add, 0);
+            Node parent2 = new Node(NodeType.add, 0);
+            Node output = new Node(NodeType.add, 0);
             parent1.ConnectWithOutput(output);
             dummyNetwork.Operations.Add(parent1);
             dummyNetwork.Operations.Add(parent2);
             dummyNetwork.Operations.Add(output);
 
 
-            Node nodeToBeAdded = new Node(NodeType.add);
+            Node nodeToBeAdded = new Node(NodeType.add, 0);
             AddRemoveNode mutator = new AddRemoveNode(
                 nodeChangeType: AddRemoveNode.NodeChangeType.Add, 
                 node: nodeToBeAdded, 
@@ -194,10 +195,10 @@ namespace TrendPredictorLibUnitTests
         [TestMethod]
         public void AddRemoveNodeRemoveTest()
         {
-            Node parent1 = new Node(NodeType.add);
-            Node parent2 = new Node(NodeType.compare);
-            Node nodeToBeRemoved = new Node(NodeType.inverse);
-            Node output = new Node(NodeType.log);
+            Node parent1 = new Node(NodeType.add, 0);
+            Node parent2 = new Node(NodeType.compare, 0);
+            Node nodeToBeRemoved = new Node(NodeType.inverse, 0);
+            Node output = new Node(NodeType.log, 0);
 
             parent1.ConnectWithOutput(nodeToBeRemoved);
             parent2.ConnectWithOutput(nodeToBeRemoved);
@@ -206,9 +207,9 @@ namespace TrendPredictorLibUnitTests
             dummyNetwork.Operations.Add(parent1);
             dummyNetwork.Operations.Add(parent2);
             dummyNetwork.Operations.Add(output);
+            dummyNetwork.Operations.Add(nodeToBeRemoved);
 
-
-            Node nodeToBeAdded = new Node(NodeType.add);
+            Node nodeToBeAdded = new Node(NodeType.add, 0);
             AddRemoveNode mutator = new AddRemoveNode(
                 nodeChangeType: AddRemoveNode.NodeChangeType.Remove,
                 node: nodeToBeRemoved,
@@ -241,16 +242,16 @@ namespace TrendPredictorLibUnitTests
         [TestMethod]
         public void AddRemoveNodeAddApplyAndRevertTest()
         {
-            Node parent1 = new Node(NodeType.add);
-            Node parent2 = new Node(NodeType.add);
-            Node output = new Node(NodeType.add);
+            Node parent1 = new Node(NodeType.add, 0);
+            Node parent2 = new Node(NodeType.add, 0);
+            Node output = new Node(NodeType.add, 0);
             parent1.ConnectWithOutput(output);
 
             dummyNetwork.Operations.Add(parent1);
             dummyNetwork.Operations.Add(parent2);
             dummyNetwork.Operations.Add(output);
 
-            Node nodeToBeAdded = new Node(NodeType.add);
+            Node nodeToBeAdded = new Node(NodeType.add, 0);
             AddRemoveNode mutator = new AddRemoveNode(
                 nodeChangeType: AddRemoveNode.NodeChangeType.Add,
                 node: nodeToBeAdded,
@@ -286,10 +287,10 @@ namespace TrendPredictorLibUnitTests
         [TestMethod]
         public void AddRemoveNodeRemoveApplyAndRevertTest()
         {
-            Node parent1 = new Node(NodeType.add);
-            Node parent2 = new Node(NodeType.compare);
-            Node nodeToBeRemoved = new Node(NodeType.inverse);
-            Node output = new Node(NodeType.log);
+            Node parent1 = new Node(NodeType.add, 0);
+            Node parent2 = new Node(NodeType.compare, 0);
+            Node nodeToBeRemoved = new Node(NodeType.inverse, 0);
+            Node output = new Node(NodeType.log, 0);
 
             parent1.ConnectWithOutput(nodeToBeRemoved);
             parent2.ConnectWithOutput(nodeToBeRemoved);
@@ -298,6 +299,7 @@ namespace TrendPredictorLibUnitTests
             dummyNetwork.Operations.Add(parent1);
             dummyNetwork.Operations.Add(parent2);
             dummyNetwork.Operations.Add(output);
+            dummyNetwork.Operations.Add(nodeToBeRemoved);
 
             AddRemoveNode mutator = new AddRemoveNode(
                 nodeChangeType: AddRemoveNode.NodeChangeType.Remove,

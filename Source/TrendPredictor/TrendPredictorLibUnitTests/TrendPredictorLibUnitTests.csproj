@@ -54,6 +54,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="DataProvider\DataBaseTests.cs" />
+    <Compile Include="Predictors\ChaoticNetwork\ChaoticNetworkTests.cs" />
     <Compile Include="Predictors\ChaoticNetwork\MutatorsTests.cs" />
     <Compile Include="Predictors\ChaoticNetwork\NetworkTeacherTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

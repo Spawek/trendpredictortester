@@ -63,6 +63,8 @@ namespace TrendPredictorLib
             return new NodeTypeChange(node, node.NodeType, nodeFactory_.GenerateRandomNodeType());
         }
 
+        /// <summary></summary>
+        /// <returns>random node with hierarchy in range <0, maxHierarchy-2> </returns>
         private Node GetRandomNode()
         {
             int operationsNo = network_.Operations.Count;
@@ -70,14 +72,21 @@ namespace TrendPredictorLib
 
             int randomNo = rand_.Next(operationsNo + inputsNo);
 
+            Node randomNode;
             if (randomNo < operationsNo)
             {
-                return network_.Operations[randomNo];
+                randomNode = network_.Operations[randomNo];
+                if (randomNode.Hierarchy >= network_.MaxHierarchy - 1)
+                {
+                    return GetRandomNode();
+                }
             }
             else
             {
-                return network_.Inputs[randomNo - operationsNo];
+                randomNode = network_.Inputs[randomNo - operationsNo];
             }
+
+            return randomNode;
         }
 
         private NetworkMutator CreateAddRemoveMutator(int wantedNoOfNodes)
@@ -122,15 +131,22 @@ namespace TrendPredictorLib
             Node parent2 = GetRandomNode();
             while (parent2 == parent1 || parent2.Outputs.Find(parent1) != null || parent2.Inputs.Find(parent1) != null)
             {
-                parent2 = GetRandomNode();
+                //parent2 = GetRandomNode(); //on network creation it was hanging in here when found only operation node as parent1
+                return CreateAddMutator(); 
             }
 
             int randomOutputNo = rand_.Next(parent1.Outputs.Count);
             Node output = parent1.Outputs.ElementAt(randomOutputNo);
 
+            int newNodeHierarchy = Math.Max(parent1.Hierarchy, parent2.Hierarchy) + 1;
+            if (output.Hierarchy <= newNodeHierarchy)
+            {
+                return CreateAddMutator();
+            }
+
             return new AddRemoveNode(
                 nodeChangeType: AddRemoveNode.NodeChangeType.Add,
-                node: new Node(nodeFactory_.GenerateRandomNodeType()),
+                node: new Node(nodeFactory_.GenerateRandomNodeType(), newNodeHierarchy),
                 parent1: parent1,
                 parent2: parent2,
                 output: output,

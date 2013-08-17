@@ -47,7 +47,7 @@ namespace TrendPredictorLibUnitTests
             };
             NodeFactory nodeFactory = new NodeFactory(funcGenerator, nodeProbabilityMap);
             List<DataPoint> dataPoints = GenerateSinWaveDataPoints(100, 0.06d);
-            Network network = new Network(nodeFactory, dataPoints);
+            Network network = new Network(nodeFactory, dataPoints, 1000);
             double addRemoveChance = 0.5;
             PatchFactory patchFactory = new PatchFactory(network, nodeFactory, addRemoveChance);
             NetworkTeacher networkTeacher = new NetworkTeacher(network, patchFactory);

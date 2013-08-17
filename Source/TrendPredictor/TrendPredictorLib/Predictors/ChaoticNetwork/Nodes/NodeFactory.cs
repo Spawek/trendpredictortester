@@ -46,14 +46,14 @@ namespace TrendPredictorLib
         /// it finds key of 1st val higher than rand
         /// </summary>
         /// <returns></returns>
-        public Node CreateRandomNode()
+        public Node CreateRandomNode(int hierarchy)
         {
-            return CreateNode(GenerateRandomNodeType());
+            return CreateNode(GenerateRandomNodeType(), hierarchy);
         }
 
-        public Node CreateNode(NodeType type)
+        public Node CreateNode(NodeType type, int hierarchy)
         {
-           return new Node(type);
+            return new Node(type, hierarchy);
         }
 
         public void TransformNode(Node node, NodeType targetType)
