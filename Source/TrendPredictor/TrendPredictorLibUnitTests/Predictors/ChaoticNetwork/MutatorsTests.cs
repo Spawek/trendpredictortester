@@ -330,5 +330,96 @@ namespace TrendPredictorLibUnitTests
             Assert.IsNotNull(output.Inputs.Find(nodeToBeRemoved));
             Assert.AreEqual(0, output.Outputs.Count);
         }
+
+        /// <summary>
+        /// on graph like:
+        /// parent1 ---> _nodeToBeRemoved -> output
+        ///                  /|
+        ///                 /
+        ///         parent2/
+        ///     
+        /// there should be no changes after applying remove and revering it       
+        /// </summary>
+        [TestMethod]
+        public void AddRemoveNodeRemoveApplyAndRevertHashTest()
+        {
+            Node parent1 = new Node(NodeType.add, 0);
+            Node parent2 = new Node(NodeType.compare, 0);
+            Node nodeToBeRemoved = new Node(NodeType.inverse, 0);
+            Node output = new Node(NodeType.log, 0);
+
+            parent1.ConnectWithOutput(nodeToBeRemoved);
+            parent2.ConnectWithOutput(nodeToBeRemoved);
+            nodeToBeRemoved.ConnectWithOutput(output);
+
+            dummyNetwork.Operations.Add(parent1);
+            dummyNetwork.Operations.Add(parent2);
+            dummyNetwork.Operations.Add(output);
+            dummyNetwork.Operations.Add(nodeToBeRemoved);
+
+            AddRemoveNode mutator = new AddRemoveNode(
+                nodeChangeType: AddRemoveNode.NodeChangeType.Remove,
+                node: nodeToBeRemoved,
+                parent1: parent1,
+                parent2: parent2,
+                output: output,
+                network: dummyNetwork);
+
+            int preMutationHash = dummyNetwork.GetHashCode();
+            mutator.Apply();
+            int postMutationHash = dummyNetwork.GetHashCode();
+            mutator.Revert();
+            int postRevertHash = dummyNetwork.GetHashCode();
+
+            Assert.AreNotEqual(preMutationHash, postMutationHash);
+            Assert.AreEqual(preMutationHash, postRevertHash);
+        }
+
+        /// <summary>
+        /// on graph like:
+        ///     parent1 ---> output
+        /// 
+        ///     parent2 (not connected)
+        ///     
+        /// there should be no changes after applying add and revering it
+        /// </summary>
+        [TestMethod]
+        public void AddRemoveNodeAddApplyAndRevertHashTest()
+        {
+            Node parent1 = new Node(NodeType.add, 0);
+            Node parent2 = new Node(NodeType.add, 0);
+            Node output = new Node(NodeType.add, 0);
+            parent1.ConnectWithOutput(output);
+
+            dummyNetwork.Operations.Add(parent1);
+            dummyNetwork.Operations.Add(parent2);
+            dummyNetwork.Operations.Add(output);
+
+            Node nodeToBeAdded = new Node(NodeType.add, 0);
+            AddRemoveNode mutator = new AddRemoveNode(
+                nodeChangeType: AddRemoveNode.NodeChangeType.Add,
+                node: nodeToBeAdded,
+                parent1: parent1,
+                parent2: parent2,
+                output: output,
+                network: dummyNetwork);
+
+            int preMutationHash = dummyNetwork.GetHashCode();
+            mutator.Apply();
+            int postMutationHash = dummyNetwork.GetHashCode();
+            mutator.Revert();
+            int postRevertHash = dummyNetwork.GetHashCode();
+
+            Assert.AreNotEqual(preMutationHash, postMutationHash);
+            Assert.AreEqual(preMutationHash, postRevertHash);
+        }
+
+        [TestMethod]
+        public void AddRemoveNodeApplyAndRevert1000MutationsHashTest()
+        {
+            Assert.Inconclusive();
+            throw new NotImplementedException();
+        }
+
     }
 }

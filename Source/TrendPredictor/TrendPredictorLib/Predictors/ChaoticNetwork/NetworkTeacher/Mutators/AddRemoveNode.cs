@@ -24,8 +24,20 @@ namespace TrendPredictorLib
         private Node output_;
         private Network network_; //ouch! ... //TODO: rethink if it is really needed in here
 
+        private string PrintPatch()
+        {
+            return String.Format("\nType: {0} \nNode: {1} \nParent1: {2} \nParent2: {3} \nOutput: {4}",
+                nodeChangeType_.ToString(),
+                node_.ToString(),
+                parent1_.ToString(),
+                parent2_.ToString(),
+                output_.ToString()
+            );
+        }
+
         protected override void ApplyAction()
         {
+            Logger.Log(this, String.Format("applying Patch: {0}", PrintPatch()));
             if (nodeChangeType_ == NodeChangeType.Add)
             {
                 AddNode();
@@ -38,6 +50,7 @@ namespace TrendPredictorLib
 
         protected override void RevertAction()
         {
+            Logger.Log(this, String.Format("reverting Patch: {0}", PrintPatch()));
             if (nodeChangeType_ == NodeChangeType.Add)
             {
                 RemoveNode();

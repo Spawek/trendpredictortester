@@ -39,6 +39,7 @@ namespace TrendPredictorLib
             // patch --> its error change - lower = better
             Dictionary<NetworkPatch, double> patchesEfficiency = new Dictionary<NetworkPatch, double>();
             double serieStartError = network_.CalculateTrainingSqrError();
+            int startNetworkHash = network_.GetHashCode();
 
             while (patchesEfficiency.Count < patchesPerTeachingSerie)
             {
@@ -62,6 +63,9 @@ namespace TrendPredictorLib
                 double delta = 1E-4;
                 if (serieStartError + bestChange - errorAfterApplyingPatch > delta)
                     throw new ApplicationException("something went rly bad");
+                int networkHashAfterApplyingPatch = network_.GetHashCode();
+                if (networkHashAfterApplyingPatch == startNetworkHash)
+                    throw new ApplicationException();
             }
             else
             {
@@ -69,6 +73,9 @@ namespace TrendPredictorLib
                 double errorAfterNotApplyingPatch = network_.CalculateTrainingSqrError();
                 if (serieStartError != errorAfterNotApplyingPatch)
                     throw new ApplicationException("revert went wrong");
+                int networkHashAfterNotApplyingPatch = network_.GetHashCode();
+                if (networkHashAfterNotApplyingPatch != startNetworkHash)
+                    throw new ApplicationException();
             }
         }
     }

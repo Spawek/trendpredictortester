@@ -45,6 +45,25 @@ namespace TrendPredictorLib
             return error;
         }
 
+        public override int GetHashCode()
+        {
+            int hash = 0;
+            foreach (Node operation in Operations)
+            {
+                hash += 3 * operation.GetHashCode();
+            }
+            foreach (Node input in Inputs)
+            {
+                hash += 5 * input.GetHashCode();
+            }
+            hash += 7 * Output.GetHashCode();
+            hash += 9 * MaxHierarchy;
+            hash += 11 * trainingData_.GetHashCode();
+            hash += 13 * inputsNo_;
+
+            return hash;
+        }
+
         private void CheckNetworkCorrectness()
         {
             foreach (Node node in Inputs)
@@ -59,8 +78,11 @@ namespace TrendPredictorLib
                 node.checkIfNodeConnectionsAreCorrrect();
                 if (node.Value == Node.MAGIC_NUMBER)
                     throw new ApplicationException();
-                if(node.Hierarchy >= node.Outputs.Max(x => x.Hierarchy))
-                    throw new ApplicationException();
+                if (node.Outputs.Count > 0)
+                {
+                    if (node.Hierarchy >= node.Outputs.Max(x => x.Hierarchy))
+                        throw new ApplicationException();
+                }
                 if (node.Hierarchy <= node.Inputs.Max(x => x.Hierarchy))
                     throw new ApplicationException();
             }
