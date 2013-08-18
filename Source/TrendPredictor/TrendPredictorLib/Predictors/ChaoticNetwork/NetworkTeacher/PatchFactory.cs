@@ -99,7 +99,7 @@ namespace TrendPredictorLib
         {
             double randomNo = rand_.NextDouble();
 
-            if (randomNo > ((double)network_.Operations.Count / 2.0d) / (double)wantedNoOfNodes)
+            if (randomNo > ((double)network_.Operations.Count / 2.0d - 3.0d) / (double)wantedNoOfNodes) // -3.0d to help small networks start (so 1st nodes wont be removed
             {
                 return CreateAddMutator();
             }
