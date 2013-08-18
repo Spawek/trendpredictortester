@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using TrendPredictorLib;
+using QuickGraph;
 
 namespace TrendPredictorLib
 {
@@ -62,6 +63,58 @@ namespace TrendPredictorLib
             hash += 13 * inputsNo_;
 
             return hash;
+        }
+
+        public IBidirectionalGraph<object, IEdge<object>> ConvertToQuickGraphForm() //TODO: refactor it!
+        {
+            BidirectionalGraph<object, IEdge<object>> graph = new BidirectionalGraph<object, IEdge<object>>();
+            
+            // add vertices
+            foreach (Node input in Inputs)
+            {
+                graph.AddVertex(input.ToVisualizationString());
+            }
+            foreach (Node operation in Operations)
+            {
+                graph.AddVertex(operation.ToVisualizationString());
+            }
+            graph.AddVertex(Output.ToVisualizationString());
+
+            // add edges
+            foreach (Node node in Inputs) //IMPORTANT: this edges are probably not needed - operations will do it all
+            {
+                string nodeVisualizationString = node.ToVisualizationString();
+                foreach (var input in node.Inputs)
+	            {
+                    graph.AddEdge(new Edge<object>(input.ToVisualizationString(), nodeVisualizationString));
+	            }
+                foreach (var output in node.Outputs)
+                {
+                    graph.AddEdge(new Edge<object>(nodeVisualizationString, output.ToVisualizationString()));
+                }
+            }
+            foreach (Node node in Operations)
+            {
+                string nodeVisualizationString = node.ToVisualizationString();
+                foreach (var input in node.Inputs)
+                {
+                    graph.AddEdge(new Edge<object>(input.ToVisualizationString(), nodeVisualizationString));
+                }
+                foreach (var output in node.Outputs)
+                {
+                    graph.AddEdge(new Edge<object>(nodeVisualizationString, output.ToVisualizationString()));
+                }
+            }
+            foreach (var input in Output.Inputs)
+            {
+                graph.AddEdge(new Edge<object>(input.ToVisualizationString(), Output.ToVisualizationString()));
+            }
+            foreach (var output in Output.Outputs)
+            {
+                graph.AddEdge(new Edge<object>(Output.ToVisualizationString(), output.ToVisualizationString()));
+            }
+
+            return graph;
         }
 
         private void CheckNetworkCorrectness()
@@ -148,6 +201,8 @@ namespace TrendPredictorLib
 
             trainingData_ = new List<DataPoint>(trainingData);  // copied for safety
         }
+
+
 
     }
 }

@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrendPredictorLibUnitTests"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WindowsFormsPlotter", "WindowsFormsPlotter\WindowsFormsPlotter.csproj", "{CF21F01A-25CE-4319-B840-F25DFD1D1F71}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphPrinter", "GraphPrinter\GraphPrinter.csproj", "{E3D65AE6-9390-4FCA-9BED-AFC1A49754C9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -25,8 +27,15 @@ Global
 		{CF21F01A-25CE-4319-B840-F25DFD1D1F71}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CF21F01A-25CE-4319-B840-F25DFD1D1F71}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CF21F01A-25CE-4319-B840-F25DFD1D1F71}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E3D65AE6-9390-4FCA-9BED-AFC1A49754C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E3D65AE6-9390-4FCA-9BED-AFC1A49754C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E3D65AE6-9390-4FCA-9BED-AFC1A49754C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E3D65AE6-9390-4FCA-9BED-AFC1A49754C9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(Performance) = preSolution
+		HasPerformanceSessions = true
 	EndGlobalSection
 EndGlobal

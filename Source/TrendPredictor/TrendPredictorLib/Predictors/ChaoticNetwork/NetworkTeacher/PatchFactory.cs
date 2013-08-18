@@ -113,7 +113,7 @@ namespace TrendPredictorLib
         {
             Node nodeToRemove = GetRandomNotInputNode();
 
-            if (nodeToRemove.Inputs.ElementAt(1).Outputs.Count == 1) //dont remove children of elements with 1 output
+            if (nodeToRemove.Inputs.ElementAt(1).Outputs.Count == 1) //dont remove children of elements with 1 output - it leads to having node without output
                 CreateRemoveMutator();
 
             return new AddRemoveNode(

@@ -67,6 +67,13 @@ namespace TrendPredictorLib
                 outputsString);
         }
 
+        public string ToVisualizationString()
+        {
+            return String.Format("{0}\n{1}",
+                    NodeID.ToString(),
+                    NodeType.ToString());
+        }
+
         public override int GetHashCode()
         {
             int hash = 0;

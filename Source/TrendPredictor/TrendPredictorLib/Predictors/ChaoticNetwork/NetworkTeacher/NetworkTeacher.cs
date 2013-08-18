@@ -34,6 +34,11 @@ namespace TrendPredictorLib
             }
         }
 
+        private void PrintGraphVisualization(Network network)
+        {
+            GraphPrinter.VisualizationManager.AddGraph(network.ConvertToQuickGraphForm());
+        }
+
         private void PerformTeachingSerie(int wantedNoOfNodes, int changesPerPatch, int patchesPerTeachingSerie)
         {
             // patch --> its error change - lower = better
@@ -65,6 +70,10 @@ namespace TrendPredictorLib
                 bestPatch.Apply();
                 double errorAfterApplyingPatch = network_.CalculateTrainingSqrError();
                 Logger.Log(this, String.Format("error after appplying patch {0}", errorAfterApplyingPatch));
+#if DEBUG
+                PrintGraphVisualization(network_);
+#endif
+
                 double delta = 1E-4;
                 if (serieStartError + bestChange - errorAfterApplyingPatch > delta)
                     throw new ApplicationException("something went rly bad");

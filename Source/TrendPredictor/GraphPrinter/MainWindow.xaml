@@ -1,0 +1,20 @@
+﻿<Window x:Class="GraphPrinter.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:graphsharp="clr-namespace:GraphSharp.Controls;assembly=GraphSharp.Controls"
+        xmlns:zoom="clr-namespace:WPFExtensions.Controls;assembly=WPFExtensions"
+        Title="MainWindow"
+        Height="429"
+        Width="852"
+        x:Name="root">
+    <Grid>
+        <zoom:ZoomControl Margin="0,0,161,0">
+            <graphsharp:GraphLayout x:Name="graphLayout" 
+                                Graph="{Binding ElementName=root, Path=Graph}" 
+                                LayoutAlgorithmType="FR" 
+                                OverlapRemovalAlgorithmType="FSA"
+                                HighlightAlgorithmType="Simple"/>
+        </zoom:ZoomControl>
+        <ListBox Name="ListBox_GraphsList" HorizontalAlignment="Left" Height="378" Margin="688,10,0,0" VerticalAlignment="Top" Width="137" SelectionChanged="ListBox_SelectionChanged"/>
+    </Grid>
+</Window>
