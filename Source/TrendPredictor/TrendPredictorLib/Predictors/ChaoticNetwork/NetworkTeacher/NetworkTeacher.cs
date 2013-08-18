@@ -78,9 +78,9 @@ namespace TrendPredictorLib
             {
                 Logger.Log(this, "NOT applying patch");
 #if DEBUG
-                int networkHashAfterNotApplyingPatch = network_.GetHashCode();
-                if (networkHashAfterNotApplyingPatch != startNetworkHash)
-                    throw new ApplicationException();
+                //int networkHashAfterNotApplyingPatch = network_.GetHashCode();
+                //if (networkHashAfterNotApplyingPatch != startNetworkHash)
+                //    throw new ApplicationException();
 #endif
             }
         }

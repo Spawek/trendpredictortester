@@ -52,7 +52,7 @@ namespace TrendPredictorLibUnitTests
             PatchFactory patchFactory = new PatchFactory(network, nodeFactory, addRemoveChance);
             NetworkTeacher networkTeacher = new NetworkTeacher(network, patchFactory);
 
-            networkTeacher.Teach(TimeSpan.FromSeconds(2.0d), 2000, 3, 30);
+            networkTeacher.Teach(TimeSpan.FromSeconds(0.1d), 2000, 3, 30);
         }
         
     }

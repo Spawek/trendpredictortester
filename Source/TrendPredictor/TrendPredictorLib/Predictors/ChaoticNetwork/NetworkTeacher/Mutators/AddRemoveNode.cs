@@ -24,18 +24,19 @@ namespace TrendPredictorLib
         private List<Node> outputs_;
         private Network network_; //ouch! ... //TODO: rethink if it is really needed in here
 
-        private string PrintPatch()
+        public string PrintPatch()
         {
             string patchPrint = String.Format("\nType: {0} \nNode: {1} \nParent1: {2} \nParent2: {3} \nOutputs:",
                 nodeChangeType_.ToString(),
-                node_.ToString(),
-                parent1_.ToString(),
-                parent2_.ToString()
+                node_.NodeID.ToString(),
+                parent1_.NodeID.ToString(),
+                parent2_.NodeID.ToString()
             );
             foreach (var output in outputs_)
             {
-                patchPrint += String.Format("\n\t{0}", output.ToString());
+                patchPrint += String.Format("\n\t{0}", output.NodeID.ToString());
             }
+            patchPrint += "\n";
 
             return patchPrint;
         }
@@ -75,6 +76,9 @@ namespace TrendPredictorLib
         /// </summary>
         private void AddNode()
         {
+            if (outputs_.Count == 0)
+                throw new ApplicationException();
+
             foreach (Node output in outputs_)
             {
                 if (parent1_.Outputs.Find(output) == null)
@@ -103,17 +107,21 @@ namespace TrendPredictorLib
 
             node_.Inputs.Clear();
 
-            if (!parent1_.Outputs.Remove(node_))
-                throw new ApplicationException();
-
             if (!parent2_.Outputs.Remove(node_))
                 throw new ApplicationException();
 
+            if (outputs_.Count == 0)
+                throw new ApplicationException();
+
+            LinkedListNode<Node> nodeToAddAfter = parent1_.Outputs.Find(node_);
             foreach (Node output in node_.Outputs)
             {
-                parent1_.Outputs.AddLast(output);
+                parent1_.Outputs.AddAfter(nodeToAddAfter, output);
                 output.Inputs.Find(node_).Value = parent1_;
             }
+            if (!parent1_.Outputs.Remove(node_))
+                throw new ApplicationException();
+
             node_.Outputs.Clear();
 
             if (!network_.Operations.Remove(node_))

@@ -78,6 +78,8 @@ namespace TrendPredictorLib
                 node.checkIfNodeConnectionsAreCorrrect();
                 if (node.Value == Node.MAGIC_NUMBER)
                     throw new ApplicationException();
+                if (node.Inputs.Count != 2)
+                    throw new ApplicationException();
                 if (node.Outputs.Count > 0)
                 {
                     if (node.Hierarchy >= node.Outputs.Max(x => x.Hierarchy))

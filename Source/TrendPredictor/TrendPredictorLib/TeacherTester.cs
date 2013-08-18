@@ -54,7 +54,7 @@ namespace TrendPredictorLib
             Logger.Log(this, String.Format("initial error: {0}", network.CalculateTrainingSqrError()));
             networkTeacher.Teach(
                 teachingTime: TimeSpan.FromSeconds(60.0d),
-                wantedNoOfNodes: 2000,
+                wantedNoOfNodes: 100, //was 2000
                 changesPerPatch: 2,
                 patchesPerTeachingSerie: 1
             );

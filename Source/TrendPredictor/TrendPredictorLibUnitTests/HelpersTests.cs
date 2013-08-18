@@ -23,6 +23,7 @@ namespace TrendPredictorLibUnitTests
 
         [TestMethod]
         public void SwapTest()
+
         {
             int a = 4;
             int b = 7;

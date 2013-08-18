@@ -23,7 +23,7 @@ namespace TrendPredictorLibUnitTests.DataProvider
                 nodeFactory: nodeFactory,
                 trainingData: new List<DataPoint>()
                 {
-                    new DataPoint(new List<double>(){2.0d, 2.0d}, 5.0d)
+                    new DataPoint(new List<double>(){2.0d, 2.0d, 2.0d}, 5.0d) //IMPORTANT: TODO: was modified from "new DataPoint(new List<double>(){2.0d, 2.0d}, 5.0d)" - now test can work incorrectly
                 },
                 maxHierarchy: 1000
             );

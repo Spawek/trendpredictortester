@@ -42,7 +42,7 @@ namespace TrendPredictorLib
                 }
                 else
                 {
-                    mutator = CreateAddRemoveMutator(wantedNoOfNodes);
+                    mutator = CreateTypeChangeMutator();
                 }
 
                 patch.mutators_.Add(mutator);
@@ -59,8 +59,14 @@ namespace TrendPredictorLib
 
         private NetworkMutator CreateTypeChangeMutator()
         {
-            Node node = GetRandomNode();
-            return new NodeTypeChange(node, node.NodeType, nodeFactory_.GenerateRandomNodeType());
+            Node node = GetRandomNotInputNode();
+            NodeType randomNodeType = nodeFactory_.GenerateRandomNodeType();
+            while(randomNodeType == node.NodeType)
+            {
+                randomNodeType = nodeFactory_.GenerateRandomNodeType();
+            }
+
+            return new NodeTypeChange(node, node.NodeType, randomNodeType);
         }
 
         /// <summary></summary>
@@ -106,6 +112,9 @@ namespace TrendPredictorLib
         private NetworkMutator CreateRemoveMutator()
         {
             Node nodeToRemove = GetRandomNotInputNode();
+
+            if (nodeToRemove.Inputs.ElementAt(1).Outputs.Count == 1) //dont remove children of elements with 1 output
+                CreateRemoveMutator();
 
             return new AddRemoveNode(
                 nodeChangeType: AddRemoveNode.NodeChangeType.Remove,

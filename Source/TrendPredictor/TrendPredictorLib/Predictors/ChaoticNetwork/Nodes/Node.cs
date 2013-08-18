@@ -35,7 +35,36 @@ namespace TrendPredictorLib
 
         public override string ToString()
         {
-            return NodeID.ToString();
+            bool is1st = true;
+            string inputsString = "{";
+            foreach (Node input in Inputs)
+            {
+                if (!is1st)
+                {
+                    inputsString += ", ";
+                }
+                is1st = false;
+                inputsString += input.NodeID.ToString();
+            }
+            inputsString += "}";
+
+            is1st = true;
+            string outputsString = "{";
+            foreach (Node output in Outputs)
+            {
+                if (!is1st)
+                {
+                    outputsString += ", ";
+                }
+                is1st = false;
+                outputsString += output.NodeID.ToString();
+            }
+            outputsString += "}";
+
+            return String.Format("ID:{0}; I:{1}; O:{2} ", 
+                NodeID.ToString(), 
+                inputsString, 
+                outputsString);
         }
 
         public override int GetHashCode()
