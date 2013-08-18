@@ -46,6 +46,11 @@ namespace TrendPredictorLib
                 NetworkPatch patch = patchFactory_.CreateAndApplyPatch(changesPerPatch, wantedNoOfNodes);
                 patchesEfficiency[patch] = network_.CalculateTrainingSqrError() - serieStartError;
                 patch.Revert();
+//#if DEBUG
+                double errorAfterNotApplyingPatch = network_.CalculateTrainingSqrError();
+                if (serieStartError != errorAfterNotApplyingPatch)
+                    throw new ApplicationException("revert went wrong");
+//#endif
             }
 
             //NOTE: what is interesting double.NaN is lowest possible number AND double.NaN != double.NaN //WTF??
@@ -63,19 +68,20 @@ namespace TrendPredictorLib
                 double delta = 1E-4;
                 if (serieStartError + bestChange - errorAfterApplyingPatch > delta)
                     throw new ApplicationException("something went rly bad");
+#if DEBUG
                 int networkHashAfterApplyingPatch = network_.GetHashCode();
                 if (networkHashAfterApplyingPatch == startNetworkHash)
                     throw new ApplicationException();
+#endif
             }
             else
             {
                 Logger.Log(this, "NOT applying patch");
-                double errorAfterNotApplyingPatch = network_.CalculateTrainingSqrError();
-                if (serieStartError != errorAfterNotApplyingPatch)
-                    throw new ApplicationException("revert went wrong");
+#if DEBUG
                 int networkHashAfterNotApplyingPatch = network_.GetHashCode();
                 if (networkHashAfterNotApplyingPatch != startNetworkHash)
                     throw new ApplicationException();
+#endif
             }
         }
     }

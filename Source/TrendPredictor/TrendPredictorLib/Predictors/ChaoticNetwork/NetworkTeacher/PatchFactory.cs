@@ -107,15 +107,12 @@ namespace TrendPredictorLib
         {
             Node nodeToRemove = GetRandomNotInputNode();
 
-            int randomOutputNo = rand_.Next(nodeToRemove.Outputs.Count);
-            Node output = nodeToRemove.Outputs.ElementAt(randomOutputNo);
-
             return new AddRemoveNode(
                 nodeChangeType: AddRemoveNode.NodeChangeType.Remove,
                 node: nodeToRemove,
                 parent1: nodeToRemove.Inputs.ElementAt(0),
                 parent2: nodeToRemove.Inputs.ElementAt(1),
-                output: output,
+                outputs: new List<Node>(nodeToRemove.Outputs),
                 network: network_
             );
         }
@@ -149,7 +146,7 @@ namespace TrendPredictorLib
                 node: new Node(nodeFactory_.GenerateRandomNodeType(), newNodeHierarchy),
                 parent1: parent1,
                 parent2: parent2,
-                output: output,
+                outputs: new List<Node>(){output},
                 network: network_
             );
         }

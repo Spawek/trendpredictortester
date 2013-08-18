@@ -154,7 +154,7 @@ namespace TrendPredictorLibUnitTests
                 node: nodeToBeAdded, 
                 parent1: parent1, 
                 parent2: parent2, 
-                output: output,
+                outputs: new List<Node>(){output},
                 network: dummyNetwork);
 
             mutator.Apply();
@@ -215,7 +215,7 @@ namespace TrendPredictorLibUnitTests
                 node: nodeToBeRemoved,
                 parent1: parent1,
                 parent2: parent2,
-                output: output,
+                outputs: new List<Node>(){output},
                 network: dummyNetwork);
             mutator.Apply();
 
@@ -257,7 +257,7 @@ namespace TrendPredictorLibUnitTests
                 node: nodeToBeAdded,
                 parent1: parent1,
                 parent2: parent2,
-                output: output,
+                outputs: new List<Node>(){output},
                 network: dummyNetwork);
 
             mutator.Apply();
@@ -306,7 +306,7 @@ namespace TrendPredictorLibUnitTests
                 node: nodeToBeRemoved,
                 parent1: parent1,
                 parent2: parent2,
-                output: output,
+                outputs: new List<Node>(){output},
                 network: dummyNetwork);
 
             mutator.Apply();
@@ -330,7 +330,7 @@ namespace TrendPredictorLibUnitTests
             Assert.IsNotNull(output.Inputs.Find(nodeToBeRemoved));
             Assert.AreEqual(0, output.Outputs.Count);
         }
-
+        /*
         /// <summary>
         /// on graph like:
         /// parent1 ---> _nodeToBeRemoved -> output
@@ -362,7 +362,7 @@ namespace TrendPredictorLibUnitTests
                 node: nodeToBeRemoved,
                 parent1: parent1,
                 parent2: parent2,
-                output: output,
+                outputs: new List<Node>(){output},
                 network: dummyNetwork);
 
             int preMutationHash = dummyNetwork.GetHashCode();
@@ -401,7 +401,7 @@ namespace TrendPredictorLibUnitTests
                 node: nodeToBeAdded,
                 parent1: parent1,
                 parent2: parent2,
-                output: output,
+                outputs: new List<Node>(){output},
                 network: dummyNetwork);
 
             int preMutationHash = dummyNetwork.GetHashCode();
@@ -413,7 +413,7 @@ namespace TrendPredictorLibUnitTests
             Assert.AreNotEqual(preMutationHash, postMutationHash);
             Assert.AreEqual(preMutationHash, postRevertHash);
         }
-
+        */
         [TestMethod]
         public void AddRemoveNodeApplyAndRevert1000MutationsHashTest()
         {
