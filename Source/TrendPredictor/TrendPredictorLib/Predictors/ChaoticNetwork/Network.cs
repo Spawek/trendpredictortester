@@ -46,25 +46,6 @@ namespace TrendPredictorLib
             return error;
         }
 
-        public override int GetHashCode()
-        {
-            int hash = 0;
-            foreach (Node operation in Operations)
-            {
-                hash += 3 * operation.GetHashCode();
-            }
-            foreach (Node input in Inputs)
-            {
-                hash += 5 * input.GetHashCode();
-            }
-            hash += 7 * Output.GetHashCode();
-            hash += 9 * MaxHierarchy;
-            hash += 11 * trainingData_.GetHashCode();
-            hash += 13 * inputsNo_;
-
-            return hash;
-        }
-
         public IBidirectionalGraph<object, IEdge<object>> ConvertToQuickGraphForm() //TODO: refactor it!
         {
             BidirectionalGraph<object, IEdge<object>> graph = new BidirectionalGraph<object, IEdge<object>>();

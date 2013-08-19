@@ -88,25 +88,6 @@ namespace TrendPredictorLib
                     nodeTypeString);
         }
 
-        public override int GetHashCode()
-        {
-            int hash = 0;
-
-            hash += 3 * ParentsNo;
-            hash += NodeType.ToString().GetHashCode();
-            foreach (Node input in Inputs)
-            {
-                hash += 5 * input.NodeID;
-            }
-            foreach (Node output in Outputs)
-            {
-                hash += 7 * output.NodeID;
-            }
-            hash += 9 * Hierarchy;
-
-            return hash;
-        }
-
         private static int nextNodeID = 1;
         private static int getNextNodeID()
         {
