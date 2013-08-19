@@ -278,9 +278,9 @@ namespace TrendPredictorLibUnitTests
         /// <summary>
         /// on graph like:
         /// parent1 ---> _nodeToBeRemoved -> output
-        ///                  /|
-        ///                 /
-        ///         parent2/
+        ///              /|
+        ///             /
+        ///    parent2 /
         ///     
         /// there should be no changes after applying remove and revering it       
         /// </summary>
@@ -330,6 +330,477 @@ namespace TrendPredictorLibUnitTests
             Assert.IsNotNull(output.Inputs.Find(nodeToBeRemoved));
             Assert.AreEqual(0, output.Outputs.Count);
         }
+
+        /// <summary>
+        /// on graph like:
+        /// parent1 ---> _nodeToBeRemoved -> output1
+        ///              /|              \
+        ///             /                _\|
+        ///     parent2/                  output2
+        ///     
+        /// there should be no changes after applying remove and revering it       
+        /// </summary>
+        [TestMethod]
+        public void AddRemoveNodeRemoveApplyAndRevertWhenNodeHas2OutputsApplyAndRevertTest()
+        {
+            Node parent1 = new Node(NodeType.add, 0);
+            Node parent2 = new Node(NodeType.compare, 0);
+            Node nodeToBeRemoved = new Node(NodeType.inverse, 0);
+            Node output1 = new Node(NodeType.log, 0);
+            Node output2 = new Node(NodeType.log, 0);
+
+            parent1.ConnectWithOutput(nodeToBeRemoved);
+            parent2.ConnectWithOutput(nodeToBeRemoved);
+            nodeToBeRemoved.ConnectWithOutput(output1);
+            nodeToBeRemoved.ConnectWithOutput(output2);
+
+            dummyNetwork.Operations.Add(parent1);
+            dummyNetwork.Operations.Add(parent2);
+            dummyNetwork.Operations.Add(output1);
+            dummyNetwork.Operations.Add(output2);
+            dummyNetwork.Operations.Add(nodeToBeRemoved);
+
+            AddRemoveNode mutator = new AddRemoveNode(
+                nodeChangeType: AddRemoveNode.NodeChangeType.Remove,
+                node: nodeToBeRemoved,
+                parent1: parent1,
+                parent2: parent2,
+                outputs: new List<Node>(nodeToBeRemoved.Outputs),
+                network: dummyNetwork);
+
+            mutator.Apply();
+            mutator.Revert();
+
+            Assert.AreEqual(0, parent1.Inputs.Count);
+            Assert.AreEqual(1, parent1.Outputs.Count);
+            Assert.IsNotNull(parent1.Outputs.Find(nodeToBeRemoved));
+
+            Assert.AreEqual(0, parent2.Inputs.Count);
+            Assert.AreEqual(1, parent2.Outputs.Count);
+            Assert.IsNotNull(parent2.Outputs.Find(nodeToBeRemoved));
+
+            Assert.AreEqual(2, nodeToBeRemoved.Inputs.Count);
+            Assert.IsNotNull(nodeToBeRemoved.Inputs.Find(parent1));
+            Assert.IsNotNull(nodeToBeRemoved.Inputs.Find(parent2));
+            Assert.AreEqual(2, nodeToBeRemoved.Outputs.Count);
+            Assert.AreEqual(output1, nodeToBeRemoved.Outputs.First.Value);
+            Assert.AreEqual(output2, nodeToBeRemoved.Outputs.Last.Value);
+
+            Assert.AreEqual(1, output1.Inputs.Count);
+            Assert.IsNotNull(output1.Inputs.Find(nodeToBeRemoved));
+            Assert.AreEqual(0, output1.Outputs.Count);
+
+            Assert.AreEqual(1, output2.Inputs.Count);
+            Assert.IsNotNull(output2.Inputs.Find(nodeToBeRemoved));
+            Assert.AreEqual(0, output2.Outputs.Count);
+        }
+
+        /// <summary>
+        /// on graph like:
+        /// parent1 ---> _nodeToBeRemoved -> output1
+        ///              /|              \
+        ///             /                _\|
+        ///     parent2/                  output2
+        ///     
+        /// 
+        /// it should looke like this after applying patch:       
+        /// 
+        /// 
+        /// parent1 ---->output1
+        ///        \
+        ///        _\|
+        ///         output2
+        /// 
+        /// parent2
+        ///     
+        /// </summary>
+        [TestMethod]
+        public void AddRemoveNodeRemoveApplyAndRevertWhenNodeHas2OutputsTest()
+        {
+            Node parent1 = new Node(NodeType.add, 0);
+            Node parent2 = new Node(NodeType.compare, 0);
+            Node nodeToBeRemoved = new Node(NodeType.inverse, 0);
+            Node output1 = new Node(NodeType.log, 0);
+            Node output2 = new Node(NodeType.log, 0);
+
+            parent1.ConnectWithOutput(nodeToBeRemoved);
+            parent2.ConnectWithOutput(nodeToBeRemoved);
+            nodeToBeRemoved.ConnectWithOutput(output1);
+            nodeToBeRemoved.ConnectWithOutput(output2);
+
+            dummyNetwork.Operations.Add(parent1);
+            dummyNetwork.Operations.Add(parent2);
+            dummyNetwork.Operations.Add(output1);
+            dummyNetwork.Operations.Add(output2);
+            dummyNetwork.Operations.Add(nodeToBeRemoved);
+
+            AddRemoveNode mutator = new AddRemoveNode(
+                nodeChangeType: AddRemoveNode.NodeChangeType.Remove,
+                node: nodeToBeRemoved,
+                parent1: parent1,
+                parent2: parent2,
+                outputs: new List<Node>(nodeToBeRemoved.Outputs),
+                network: dummyNetwork);
+
+            mutator.Apply();
+
+            Assert.AreEqual(0, parent1.Inputs.Count);
+            Assert.AreEqual(2, parent1.Outputs.Count);
+            Assert.AreEqual(output1, parent1.Outputs.First.Value);
+            Assert.AreEqual(output2, parent1.Outputs.Last.Value);
+
+            Assert.AreEqual(0, parent2.Inputs.Count);
+            Assert.AreEqual(0, parent2.Outputs.Count);
+
+            Assert.AreEqual(0, nodeToBeRemoved.Inputs.Count);
+            Assert.AreEqual(0, nodeToBeRemoved.Outputs.Count);
+
+            Assert.AreEqual(1, output1.Inputs.Count);
+            Assert.IsNotNull(output1.Inputs.Find(parent1));
+            Assert.AreEqual(0, output1.Outputs.Count);
+
+            Assert.AreEqual(1, output2.Inputs.Count);
+            Assert.IsNotNull(output2.Inputs.Find(parent1));
+            Assert.AreEqual(0, output2.Outputs.Count);
+        }
+
+        /// <summary>
+        /// on graph like:
+        /// 
+        ///   C1 (1st child of parent1 a.k.a child1
+        ///   /\
+        ///   ||
+        ///   ||
+        /// parent1 ---> _nodeToBeRemoved -> output
+        ///   ||         /|
+        ///   \/        /
+        ///   C3       /
+        ///           /
+        ///  parent2 /
+        ///     
+        /// there should be no changes after applying remove and revering it       
+        /// </summary>
+        [TestMethod]
+        public void AddRemoveNodeRemoveApplyAndRevertWhenNodeToRemoveParent1Has3OutputsApplyAndRevertTest()
+        {
+            Node parent1 = new Node(NodeType.add, 0);
+            Node parent2 = new Node(NodeType.compare, 0);
+            Node child1 = new Node(NodeType.copy, 0);
+            Node child3 = new Node(NodeType.copy, 0);
+            Node nodeToBeRemoved = new Node(NodeType.inverse, 0);
+            Node output = new Node(NodeType.log, 0);
+
+            parent1.ConnectWithOutput(child1);
+            parent1.ConnectWithOutput(nodeToBeRemoved);
+            parent1.ConnectWithOutput(child3);
+            parent2.ConnectWithOutput(nodeToBeRemoved);
+            nodeToBeRemoved.ConnectWithOutput(output);
+
+            dummyNetwork.Operations.Add(parent1);
+            dummyNetwork.Operations.Add(parent2);
+            dummyNetwork.Operations.Add(output);
+            dummyNetwork.Operations.Add(nodeToBeRemoved);
+
+            AddRemoveNode mutator = new AddRemoveNode(
+                nodeChangeType: AddRemoveNode.NodeChangeType.Remove,
+                node: nodeToBeRemoved,
+                parent1: parent1,
+                parent2: parent2,
+                outputs: new List<Node>() { output },
+                network: dummyNetwork);
+
+            mutator.Apply();
+            mutator.Revert();
+
+            Assert.AreEqual(0, parent1.Inputs.Count);
+            Assert.AreEqual(3, parent1.Outputs.Count);
+            Assert.AreEqual(child1, parent1.Outputs.First.Value);
+            Assert.IsNotNull(parent1.Outputs.Find(nodeToBeRemoved));
+            Assert.AreEqual(child3, parent1.Outputs.Last.Value);
+
+            Assert.AreEqual(0, parent2.Inputs.Count);
+            Assert.AreEqual(1, parent2.Outputs.Count);
+            Assert.IsNotNull(parent2.Outputs.Find(nodeToBeRemoved));
+
+            Assert.AreEqual(2, nodeToBeRemoved.Inputs.Count);
+            Assert.IsNotNull(nodeToBeRemoved.Inputs.Find(parent1));
+            Assert.IsNotNull(nodeToBeRemoved.Inputs.Find(parent2));
+            Assert.AreEqual(1, nodeToBeRemoved.Outputs.Count);
+            Assert.IsNotNull(nodeToBeRemoved.Outputs.Find(output));
+
+            Assert.AreEqual(1, output.Inputs.Count);
+            Assert.IsNotNull(output.Inputs.Find(nodeToBeRemoved));
+            Assert.AreEqual(0, output.Outputs.Count);
+
+            Assert.AreEqual(1, child1.Inputs.Count);
+            Assert.AreEqual(parent1, child1.Inputs.First.Value);
+            Assert.AreEqual(0, child1.Outputs.Count);
+
+            Assert.AreEqual(1, child3.Inputs.Count);
+            Assert.AreEqual(parent1, child3.Inputs.First.Value);
+            Assert.AreEqual(0, child3.Outputs.Count);
+        }
+
+        /// <summary>
+        /// on graph like:
+        /// 
+        ///   C1 (1st child of parent1 a.k.a child1
+        ///   /\
+        ///   ||
+        ///   ||
+        /// parent1 ---> _nodeToBeRemoved -> output
+        ///   ||         /|
+        ///   \/        /
+        ///   C3       /
+        ///           /
+        ///  parent2 /
+        ///     
+        /// it should looke like this after applying patch:
+        /// 
+        ///  C1 (1st child of parent1 a.k.a child1
+        ///   /\
+        ///   ||
+        ///   ||
+        /// parent1 ---> output
+        ///   ||         
+        ///   \/       
+        ///   C3       
+        ///           
+        ///  parent2        
+        ///  
+        /// </summary>
+        [TestMethod]
+        public void AddRemoveNodeRemoveApplyAndRevertWhenNodeToRemoveParent1Has3OutputsTest()
+        {
+            Node parent1 = new Node(NodeType.add, 0);
+            Node parent2 = new Node(NodeType.compare, 0);
+            Node child1 = new Node(NodeType.copy, 0);
+            Node child3 = new Node(NodeType.copy, 0);
+            Node nodeToBeRemoved = new Node(NodeType.inverse, 0);
+            Node output = new Node(NodeType.log, 0);
+
+            parent1.ConnectWithOutput(child1);
+            parent1.ConnectWithOutput(nodeToBeRemoved);
+            parent1.ConnectWithOutput(child3);
+            parent2.ConnectWithOutput(nodeToBeRemoved);
+            nodeToBeRemoved.ConnectWithOutput(output);
+
+            dummyNetwork.Operations.Add(parent1);
+            dummyNetwork.Operations.Add(parent2);
+            dummyNetwork.Operations.Add(output);
+            dummyNetwork.Operations.Add(nodeToBeRemoved);
+
+            AddRemoveNode mutator = new AddRemoveNode(
+                nodeChangeType: AddRemoveNode.NodeChangeType.Remove,
+                node: nodeToBeRemoved,
+                parent1: parent1,
+                parent2: parent2,
+                outputs: new List<Node>() { output },
+                network: dummyNetwork);
+
+            mutator.Apply();
+
+            Assert.AreEqual(0, parent1.Inputs.Count);
+            Assert.AreEqual(3, parent1.Outputs.Count);
+            Assert.AreEqual(child1, parent1.Outputs.First.Value);
+            Assert.IsNotNull(parent1.Outputs.Find(output));
+            Assert.AreEqual(child3, parent1.Outputs.Last.Value);
+
+            Assert.AreEqual(0, parent2.Inputs.Count);
+            Assert.AreEqual(0, parent2.Outputs.Count);
+
+            Assert.AreEqual(0, nodeToBeRemoved.Inputs.Count);
+            Assert.AreEqual(0, nodeToBeRemoved.Outputs.Count);
+
+            Assert.AreEqual(1, output.Inputs.Count);
+            Assert.IsNotNull(output.Inputs.Find(parent1));
+            Assert.AreEqual(0, output.Outputs.Count);
+
+            Assert.AreEqual(1, child1.Inputs.Count);
+            Assert.AreEqual(parent1, child1.Inputs.First.Value);
+            Assert.AreEqual(0, child1.Outputs.Count);
+
+            Assert.AreEqual(1, child3.Inputs.Count);
+            Assert.AreEqual(parent1, child3.Inputs.First.Value);
+            Assert.AreEqual(0, child3.Outputs.Count);
+        }
+
+        /// <summary>
+        /// on graph like:
+        /// 
+        ///   C1 (1st child of parent1 a.k.a child1
+        ///   /\
+        ///   ||
+        ///   ||
+        /// parent1 ---> _nodeToBeRemoved -> output1
+        ///   ||         /|             \
+        ///   \/        /               _\|
+        ///   C3       /                  output2
+        ///           /
+        ///  parent2 /
+        ///     
+        /// it should looke like this after applying patch:
+        /// 
+        ///  C1 (1st child of parent1 a.k.a child1
+        ///   /\
+        ///   ||
+        ///   ||
+        /// parent1 ---> output1
+        ///   ||   \      
+        ///   \/   _\|   
+        ///   C3     output2  
+        ///           
+        ///  parent2        
+        ///  
+        /// </summary>
+        [TestMethod]
+        public void AddRemoveNodeRemoveApplyAndRevertWhenNodeToRemoveParent1Has3OutputsAndNodeHas2OutputsTest()
+        {
+            Node parent1 = new Node(NodeType.add, 0);
+            Node parent2 = new Node(NodeType.compare, 0);
+            Node child1 = new Node(NodeType.copy, 0);
+            Node child3 = new Node(NodeType.copy, 0);
+            Node nodeToBeRemoved = new Node(NodeType.inverse, 0);
+            Node output1 = new Node(NodeType.log, 0);
+            Node output2 = new Node(NodeType.log, 0);
+
+            parent1.ConnectWithOutput(child1);
+            parent1.ConnectWithOutput(nodeToBeRemoved);
+            parent1.ConnectWithOutput(child3);
+            parent2.ConnectWithOutput(nodeToBeRemoved);
+            nodeToBeRemoved.ConnectWithOutput(output1);
+
+            dummyNetwork.Operations.Add(parent1);
+            dummyNetwork.Operations.Add(parent2);
+            dummyNetwork.Operations.Add(output1);
+            dummyNetwork.Operations.Add(nodeToBeRemoved);
+            dummyNetwork.Operations.Add(output2);
+
+            AddRemoveNode mutator = new AddRemoveNode(
+                nodeChangeType: AddRemoveNode.NodeChangeType.Remove,
+                node: nodeToBeRemoved,
+                parent1: parent1,
+                parent2: parent2,
+                outputs: new List<Node>(nodeToBeRemoved.Outputs),
+                network: dummyNetwork);
+
+            mutator.Apply();
+
+            Assert.AreEqual(0, parent1.Inputs.Count);
+            Assert.AreEqual(4, parent1.Outputs.Count);
+            Assert.AreEqual(child1, parent1.Outputs.First.Value);
+            Assert.AreEqual(output1, parent1.Outputs.First.Next);
+            Assert.AreEqual(output2, parent1.Outputs.First.Next.Next);
+            Assert.AreEqual(child3, parent1.Outputs.Last.Value);
+
+            Assert.AreEqual(0, parent2.Inputs.Count);
+            Assert.AreEqual(0, parent2.Outputs.Count);
+
+            Assert.AreEqual(0, nodeToBeRemoved.Inputs.Count);
+            Assert.AreEqual(0, nodeToBeRemoved.Outputs.Count);
+
+            Assert.AreEqual(1, output1.Inputs.Count);
+            Assert.IsNotNull(output1.Inputs.Find(parent1));
+            Assert.AreEqual(0, output1.Outputs.Count);
+
+            Assert.AreEqual(1, output2.Inputs.Count);
+            Assert.IsNotNull(output2.Inputs.Find(parent1));
+            Assert.AreEqual(0, output2.Outputs.Count);
+
+            Assert.AreEqual(1, child1.Inputs.Count);
+            Assert.AreEqual(parent1, child1.Inputs.First.Value);
+            Assert.AreEqual(0, child1.Outputs.Count);
+
+            Assert.AreEqual(1, child3.Inputs.Count);
+            Assert.AreEqual(parent1, child3.Inputs.First.Value);
+            Assert.AreEqual(0, child3.Outputs.Count);
+        }
+
+        /// <summary>
+        /// on graph like:
+        /// 
+        ///   C1 (1st child of parent1 a.k.a child1
+        ///   /\
+        ///   ||
+        ///   ||
+        /// parent1 ---> _nodeToBeRemoved -> output1
+        ///   ||         /|             \
+        ///   \/        /               _\|
+        ///   C3       /                  output2
+        ///           /
+        ///  parent2 /
+        ///     
+        /// there should be no changes after applying remove and revering it       
+        /// </summary>
+        [TestMethod]
+        public void AddRemoveNodeRemoveApplyAndRevertWhenNodeToRemoveParent1Has3OutputsAndNodeToRemoveHas2OutputsApplyAndRevertTest()
+        {
+            Node parent1 = new Node(NodeType.add, 0);
+            Node parent2 = new Node(NodeType.compare, 0);
+            Node child1 = new Node(NodeType.copy, 0);
+            Node child3 = new Node(NodeType.copy, 0);
+            Node nodeToBeRemoved = new Node(NodeType.inverse, 0);
+            Node output1 = new Node(NodeType.log, 0);
+            Node output2 = new Node(NodeType.log, 0);
+
+            parent1.ConnectWithOutput(child1);
+            parent1.ConnectWithOutput(nodeToBeRemoved);
+            parent1.ConnectWithOutput(child3);
+            parent2.ConnectWithOutput(nodeToBeRemoved);
+            nodeToBeRemoved.ConnectWithOutput(output1);
+
+            dummyNetwork.Operations.Add(parent1);
+            dummyNetwork.Operations.Add(parent2);
+            dummyNetwork.Operations.Add(output1);
+            dummyNetwork.Operations.Add(nodeToBeRemoved);
+            dummyNetwork.Operations.Add(output2);
+
+            AddRemoveNode mutator = new AddRemoveNode(
+                nodeChangeType: AddRemoveNode.NodeChangeType.Remove,
+                node: nodeToBeRemoved,
+                parent1: parent1,
+                parent2: parent2,
+                outputs: new List<Node>(nodeToBeRemoved.Outputs),
+                network: dummyNetwork);
+
+            mutator.Apply();
+            mutator.Revert();
+
+            Assert.AreEqual(0, parent1.Inputs.Count);
+            Assert.AreEqual(3, parent1.Outputs.Count);
+            Assert.AreEqual(child1, parent1.Outputs.First.Value);
+            Assert.AreEqual(nodeToBeRemoved, parent1.Outputs.First.Next);
+            Assert.AreEqual(child3, parent1.Outputs.Last.Value);
+
+            Assert.AreEqual(0, parent2.Inputs.Count);
+            Assert.AreEqual(1, parent2.Outputs.Count);
+            Assert.IsNotNull(parent2.Outputs.Find(nodeToBeRemoved));
+
+            Assert.AreEqual(2, nodeToBeRemoved.Inputs.Count);
+            Assert.AreEqual(parent1, nodeToBeRemoved.Inputs.First.Value);
+            Assert.AreEqual(parent2, nodeToBeRemoved.Inputs.Last.Value);
+            Assert.AreEqual(2, nodeToBeRemoved.Outputs.Count);
+            Assert.AreEqual(output1, nodeToBeRemoved.Outputs.First.Value);
+            Assert.AreEqual(output2, nodeToBeRemoved.Outputs.Last.Value);
+
+            Assert.AreEqual(1, output1.Inputs.Count);
+            Assert.IsNotNull(output1.Inputs.Find(nodeToBeRemoved));
+            Assert.AreEqual(0, output1.Outputs.Count);
+
+            Assert.AreEqual(1, output2.Inputs.Count);
+            Assert.IsNotNull(output2.Inputs.Find(nodeToBeRemoved));
+            Assert.AreEqual(0, output2.Outputs.Count);
+
+            Assert.AreEqual(1, child1.Inputs.Count);
+            Assert.AreEqual(parent1, child1.Inputs.First.Value);
+            Assert.AreEqual(0, child1.Outputs.Count);
+
+            Assert.AreEqual(1, child3.Inputs.Count);
+            Assert.AreEqual(parent1, child3.Inputs.First.Value);
+            Assert.AreEqual(0, child3.Outputs.Count);
+        }
+
+
         /*
         /// <summary>
         /// on graph like:
