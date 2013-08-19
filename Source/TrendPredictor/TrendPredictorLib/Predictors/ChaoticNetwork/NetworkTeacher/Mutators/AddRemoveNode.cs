@@ -113,15 +113,20 @@ namespace TrendPredictorLib
 
         private void RemoveNode()
         {
+#if DEBUG
+            if (parent2_.Outputs.Count == 1 && parent2_.Inputs.Count != 0) //parent2 has no more outputs than this node and parent2 is not network input //to prevent creating nodes without outputs
+                throw new ApplicationException();
+
             if (node_.Inputs.Count != 2)
                 throw new ApplicationException();
+
+            if (outputs_.Count == 0)
+                throw new ApplicationException();
+#endif
 
             node_.Inputs.Clear();
 
             if (!parent2_.Outputs.Remove(node_))
-                throw new ApplicationException();
-
-            if (outputs_.Count == 0)
                 throw new ApplicationException();
 
             LinkedListNode<Node> nodeToAddAfter = parent1_.Outputs.Find(node_);
