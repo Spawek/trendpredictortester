@@ -669,6 +669,7 @@ namespace TrendPredictorLibUnitTests
             parent1.ConnectWithOutput(child3);
             parent2.ConnectWithOutput(nodeToBeRemoved);
             nodeToBeRemoved.ConnectWithOutput(output1);
+            nodeToBeRemoved.ConnectWithOutput(output2);
 
             dummyNetwork.Operations.Add(parent1);
             dummyNetwork.Operations.Add(parent2);
@@ -689,8 +690,8 @@ namespace TrendPredictorLibUnitTests
             Assert.AreEqual(0, parent1.Inputs.Count);
             Assert.AreEqual(4, parent1.Outputs.Count);
             Assert.AreEqual(child1, parent1.Outputs.First.Value);
-            Assert.AreEqual(output1, parent1.Outputs.First.Next);
-            Assert.AreEqual(output2, parent1.Outputs.First.Next.Next);
+            Assert.AreEqual(output1, parent1.Outputs.First.Next.Value);
+            Assert.AreEqual(output2, parent1.Outputs.First.Next.Next.Value);
             Assert.AreEqual(child3, parent1.Outputs.Last.Value);
 
             Assert.AreEqual(0, parent2.Inputs.Count);
@@ -748,6 +749,7 @@ namespace TrendPredictorLibUnitTests
             parent1.ConnectWithOutput(child3);
             parent2.ConnectWithOutput(nodeToBeRemoved);
             nodeToBeRemoved.ConnectWithOutput(output1);
+            nodeToBeRemoved.ConnectWithOutput(output2);
 
             dummyNetwork.Operations.Add(parent1);
             dummyNetwork.Operations.Add(parent2);
@@ -769,7 +771,7 @@ namespace TrendPredictorLibUnitTests
             Assert.AreEqual(0, parent1.Inputs.Count);
             Assert.AreEqual(3, parent1.Outputs.Count);
             Assert.AreEqual(child1, parent1.Outputs.First.Value);
-            Assert.AreEqual(nodeToBeRemoved, parent1.Outputs.First.Next);
+            Assert.AreEqual(nodeToBeRemoved, parent1.Outputs.First.Next.Value);
             Assert.AreEqual(child3, parent1.Outputs.Last.Value);
 
             Assert.AreEqual(0, parent2.Inputs.Count);

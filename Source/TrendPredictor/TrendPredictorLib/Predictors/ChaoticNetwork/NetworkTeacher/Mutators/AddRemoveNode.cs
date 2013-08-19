@@ -87,12 +87,23 @@ namespace TrendPredictorLib
 
             node_.Inputs.AddLast(parent1_);
             node_.Inputs.AddLast(parent2_);
+
+            bool nodeWasInjectedToParent = false;
             foreach (Node output in outputs_)
             {
                 node_.Outputs.AddLast(output);
 
                 //replace like this saves inputs/outputs order after apply/remove
-                parent1_.Outputs.Find(output).Value = node_;
+                if (!nodeWasInjectedToParent)
+                {
+                    parent1_.Outputs.Find(output).Value = node_;
+                    nodeWasInjectedToParent = true;
+                }
+                else
+                {
+                    if(!parent1_.Outputs.Remove(output))
+                        throw new ApplicationException();
+                }
                 output.Inputs.Find(parent1_).Value = node_;
             }
 
@@ -116,7 +127,7 @@ namespace TrendPredictorLib
             LinkedListNode<Node> nodeToAddAfter = parent1_.Outputs.Find(node_);
             foreach (Node output in node_.Outputs)
             {
-                parent1_.Outputs.AddAfter(nodeToAddAfter, output);
+                nodeToAddAfter = parent1_.Outputs.AddAfter(nodeToAddAfter, output);
                 output.Inputs.Find(node_).Value = parent1_;
             }
             if (!parent1_.Outputs.Remove(node_))
