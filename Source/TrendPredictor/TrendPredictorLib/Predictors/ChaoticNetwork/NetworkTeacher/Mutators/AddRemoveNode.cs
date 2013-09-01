@@ -21,6 +21,7 @@ namespace TrendPredictorLib
         private Node node_;
         private Node parent1_;
         private Node parent2_;
+        private LinkedListNode<Node> parent2NodeToInsertAfter = null;
         private List<Node> outputs_;
         private Network network_; //ouch! ... //TODO: rethink if it is really needed in here
 
@@ -107,7 +108,15 @@ namespace TrendPredictorLib
                 output.Inputs.Find(parent1_).Value = node_;
             }
 
-            parent2_.Outputs.AddLast(node_);
+            if (parent2NodeToInsertAfter != null)
+            {
+                parent2_.Outputs.AddAfter(parent2NodeToInsertAfter, node_);
+            }
+            else
+            {
+                parent2_.Outputs.AddLast(node_);
+            }
+
             network_.Operations.Add(node_);
         }
 
@@ -125,6 +134,8 @@ namespace TrendPredictorLib
 #endif
 
             node_.Inputs.Clear();
+
+            parent2NodeToInsertAfter = parent2_.Outputs.Find(node_).Previous;
 
             if (!parent2_.Outputs.Remove(node_))
                 throw new ApplicationException();
