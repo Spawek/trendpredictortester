@@ -46,6 +46,28 @@ namespace TrendPredictorLib
             return error;
         }
 
+        public string PrintNetworkStruct()
+        {
+            StringBuilder builder = new StringBuilder();
+
+            builder.AppendLine("Inputs:");
+            foreach (Node node in Inputs)
+            {
+                builder.AppendLine(node.ToString());
+            }
+
+            builder.AppendLine("Operations:\n");
+            foreach (Node node in Operations)
+            {
+                builder.AppendLine(node.ToString());
+            }
+
+            builder.AppendLine("Output:");
+            builder.AppendLine(Output.ToString());
+
+            return builder.ToString();
+        }
+
         public IBidirectionalGraph<object, IEdge<object>> ConvertToQuickGraphForm() //TODO: refactor it!
         {
             BidirectionalGraph<object, IEdge<object>> graph = new BidirectionalGraph<object, IEdge<object>>();

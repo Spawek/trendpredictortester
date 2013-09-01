@@ -61,10 +61,11 @@ namespace TrendPredictorLib
             }
             outputsString += "}";
 
-            return String.Format("ID:{0}; I:{1}; O:{2} ", 
-                NodeID.ToString(), 
-                inputsString, 
-                outputsString);
+            return String.Format("ID:{0}; I:{1}; O:{2}; T:{3}",
+                NodeID.ToString(),
+                inputsString,
+                outputsString,
+                nodeType_.ToString());
         }
 
         public string ToVisualizationString()
