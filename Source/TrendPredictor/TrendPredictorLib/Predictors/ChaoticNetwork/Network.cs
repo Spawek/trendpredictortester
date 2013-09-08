@@ -127,6 +127,10 @@ namespace TrendPredictorLib
                 node.checkIfNodeConnectionsAreCorrrect();
                 if (node.Value == Node.MAGIC_NUMBER)
                     throw new ApplicationException();
+                if (node.Outputs.Distinct().ToList().Count != node.Outputs.Count)
+                    throw new ApplicationException();
+                if (node.Inputs.Count != 0)
+                    throw new ApplicationException();
             }
 
             foreach (Node node in Operations)
@@ -135,19 +139,49 @@ namespace TrendPredictorLib
                 if (node.Value == Node.MAGIC_NUMBER)
                     throw new ApplicationException();
                 if (node.Inputs.Count != 2)
-                    throw new ApplicationException();
+                    throw new ApplicationException("Wrong no of inputs!");
                 if (node.Outputs.Count > 0)
                 {
                     if (node.Hierarchy >= node.Outputs.Max(x => x.Hierarchy))
-                        throw new ApplicationException();
+                        throw new ApplicationException("Wrong node hierarchy!");
                 }
                 if (node.Hierarchy <= node.Inputs.Max(x => x.Hierarchy))
+                    throw new ApplicationException();
+                if (node.Inputs.Distinct().ToList().Count != node.Inputs.Count)
+                    throw new ApplicationException();
+                if (node.Outputs.Distinct().ToList().Count != node.Outputs.Count)
                     throw new ApplicationException();
             }
 
             Output.checkIfNodeConnectionsAreCorrrect();
             if (Output.Value == Node.MAGIC_NUMBER)
                 throw new ApplicationException();
+            if (Output.Inputs.Distinct().ToList().Count != Output.Inputs.Count)
+                throw new ApplicationException();
+            if (Output.Outputs.Count != 0)
+                throw new ApplicationException();
+        }
+
+        /// <summary>
+        /// USE ONLY IN UT
+        /// </summary>
+        public void UTTestingFoo()
+        {
+            foreach (Node node in Inputs)
+            {
+                node.checkIfNodeConnectionsAreCorrrect();
+                if (node.Outputs.Distinct().ToList().Count != node.Outputs.Count)
+                    throw new ApplicationException();
+            }
+
+            foreach (Node node in Operations)
+            {
+                node.checkIfNodeConnectionsAreCorrrect();
+                if (node.Inputs.Distinct().ToList().Count != node.Inputs.Count)
+                    throw new ApplicationException();
+                if (node.Outputs.Distinct().ToList().Count != node.Outputs.Count)
+                    throw new ApplicationException();
+            }
         }
 
         private void ResetAllNodes()
