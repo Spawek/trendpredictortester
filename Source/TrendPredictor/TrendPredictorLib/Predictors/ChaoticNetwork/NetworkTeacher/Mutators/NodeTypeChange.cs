@@ -24,8 +24,9 @@ namespace TrendPredictorLib
         {
             if (node_.NodeType != fromType_)
                 throw new ApplicationException();
-
+#if DEBUG
             Logger.Log(this, String.Format("Applying NodeTypeChange:\n{0}", PrintPatch()));
+#endif
             node_.Transform(toType_);
         }
 
@@ -33,8 +34,9 @@ namespace TrendPredictorLib
         {
             if (node_.NodeType != toType_)
                 throw new ApplicationException();
-
+#if DEBUG
             Logger.Log(this, String.Format("Reverting NodeTypeChange:\n{0}", PrintPatch()));
+#endif
             node_.Transform(fromType_);
         }
 
