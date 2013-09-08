@@ -171,7 +171,7 @@
         /// there should be no changes after applying remove and revering it       
         /// </summary>
         [TestMethod]
-        public void AddRemoveNodeRemoveApplyAndRevertWhenSecondParentHas2ChildrenTest()
+        public void AddRemoveNodeRemoveApplyAndRevertWhenSecondParentHas2AndNodeToRemoveIsFistOneChildrenTest()
         {
             Node parent1 = new Node(NodeType.add, 0);
             Node parent2 = new Node(NodeType.compare, 0);
@@ -223,4 +223,75 @@
             Assert.AreEqual(1, child2.Inputs.Count);
             Assert.AreEqual(parent2, child2.Inputs.First.Value);
             Assert.AreEqual(0, child2.Outputs.Count);
+        }
+
+
+        /// <summary>
+        /// on graph like:
+        /// 
+        /// parent1 ---> _nodeToBeRemoved -> output
+        ///              /| 
+        ///             / 
+        ///   C1       /
+        ///   /\      |
+        ///   ||      |
+        ///   ||      /
+        ///  parent2 /
+        ///     
+        /// 
+        /// there should be no changes after applying remove and revering it       
+        /// </summary>
+        [TestMethod]
+        public void AddRemoveNodeRemoveApplyAndRevertWhenSecondParentHas2AndNodeToRemoveIsLastOneChildrenTest()
+        {
+            Node parent1 = new Node(NodeType.add, 0);
+            Node parent2 = new Node(NodeType.compare, 0);
+            Node child1 = new Node(NodeType.copy, 0);
+            Node nodeToBeRemoved = new Node(NodeType.inverse, 0);
+            Node output = new Node(NodeType.log, 0);
+
+            parent1.ConnectWithOutput(nodeToBeRemoved);
+            parent2.ConnectWithOutput(child1);
+            parent2.ConnectWithOutput(nodeToBeRemoved);
+            nodeToBeRemoved.ConnectWithOutput(output);
+
+            dummyNetwork.Operations.Add(parent1);
+            dummyNetwork.Operations.Add(parent2);
+            dummyNetwork.Operations.Add(output);
+            dummyNetwork.Operations.Add(child1);
+            dummyNetwork.Operations.Add(nodeToBeRemoved);
+
+            AddRemoveNode mutator = new AddRemoveNode(
+                nodeChangeType: AddRemoveNode.NodeChangeType.Remove,
+                node: nodeToBeRemoved,
+                parent1: parent1,
+                parent2: parent2,
+                outputs: new List<Node>(nodeToBeRemoved.Outputs),
+                network: dummyNetwork);
+
+            mutator.Apply();
+            mutator.Revert();
+
+            Assert.AreEqual(0, parent1.Inputs.Count);
+            Assert.AreEqual(1, parent1.Outputs.Count);
+            Assert.IsTrue(parent1.Outputs.Contains(nodeToBeRemoved));
+
+            Assert.AreEqual(2, nodeToBeRemoved.Inputs.Count);
+            Assert.AreEqual(parent1, nodeToBeRemoved.Inputs.First.Value);
+            Assert.AreEqual(parent2, nodeToBeRemoved.Inputs.Last.Value);
+            Assert.AreEqual(1, nodeToBeRemoved.Outputs.Count);
+            Assert.AreEqual(output, nodeToBeRemoved.Outputs.First.Value);
+
+            Assert.AreEqual(0, parent2.Inputs.Count);
+            Assert.AreEqual(2, parent2.Outputs.Count);
+            Assert.AreEqual(child1, parent2.Outputs.First.Value);
+            Assert.AreEqual(nodeToBeRemoved, parent2.Outputs.Last.Value);
+
+            Assert.AreEqual(1, output.Inputs.Count);
+            Assert.AreEqual(nodeToBeRemoved, output.Inputs.First.Value);
+            Assert.AreEqual(0, output.Outputs.Count);
+
+            Assert.AreEqual(1, child1.Inputs.Count);
+            Assert.AreEqual(parent2, child1.Inputs.First.Value);
+            Assert.AreEqual(0, child1.Outputs.Count);
         }        [TestMethod]        public void AddRemoveNodeApplyAndRevert1000MutationsHashTest()        {            Assert.Inconclusive();            throw new NotImplementedException();        }    }}
