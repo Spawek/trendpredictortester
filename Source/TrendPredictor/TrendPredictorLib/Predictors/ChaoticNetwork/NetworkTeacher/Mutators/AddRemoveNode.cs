@@ -114,7 +114,7 @@ namespace TrendPredictorLib
             }
             else
             {
-                parent2_.Outputs.AddLast(node_);
+                parent2_.Outputs.AddFirst(node_);
             }
 
             network_.Operations.Add(node_);
