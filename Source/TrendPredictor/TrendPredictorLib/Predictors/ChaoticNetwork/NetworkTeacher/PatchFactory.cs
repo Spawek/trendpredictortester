@@ -116,6 +116,10 @@ namespace TrendPredictorLib
             if (nodeToRemove.Inputs.ElementAt(1).Outputs.Count == 1) //dont remove children of elements with 1 output - it leads to having node without output
                 return CreateRemoveMutator();
 
+            Node nodeToRemoveFirstParent = nodeToRemove.Inputs.First.Value;
+            if (nodeToRemove.Outputs.Any(x => x.Inputs.Contains(nodeToRemoveFirstParent))) // if any output node of node to remove has node to remove 1st parent as its 1st parent after removal there will be situation that this node has 2x same parent
+                return CreateRemoveMutator();
+
             return new AddRemoveNode(
                 nodeChangeType: AddRemoveNode.NodeChangeType.Remove,
                 node: nodeToRemove,
