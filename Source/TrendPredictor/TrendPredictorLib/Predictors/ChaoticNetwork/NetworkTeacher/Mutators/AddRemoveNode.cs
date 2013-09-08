@@ -21,7 +21,7 @@ namespace TrendPredictorLib
         private Node node_;
         private Node parent1_;
         private Node parent2_;
-        private LinkedListNode<Node> parent2NodeToInsertAfter = null;
+        private Node parent2NodeToInsertAfter_ = null; //it can't be LinkedListNode, coz it the "Node" can be removed in added in meantime so it wont be the same LinkedListNode, althouht this will still be the same node
         private List<Node> outputs_;
         private Network network_; //ouch! ... //TODO: rethink if it is really needed in here
 
@@ -108,9 +108,9 @@ namespace TrendPredictorLib
                 output.Inputs.Find(parent1_).Value = node_;
             }
 
-            if (parent2NodeToInsertAfter != null)
+            if (parent2NodeToInsertAfter_ != null)
             {
-                parent2_.Outputs.AddAfter(parent2NodeToInsertAfter, node_);
+                parent2_.Outputs.AddAfter(parent2_.Outputs.Find(parent2NodeToInsertAfter_), node_);
             }
             else
             {
@@ -134,8 +134,6 @@ namespace TrendPredictorLib
 #endif
 
             node_.Inputs.Clear();
-
-            parent2NodeToInsertAfter = parent2_.Outputs.Find(node_).Previous;
 
             if (!parent2_.Outputs.Remove(node_))
                 throw new ApplicationException();
@@ -175,6 +173,17 @@ namespace TrendPredictorLib
             parent2_ = parent2;
             outputs_ = outputs;
             network_ = network;
+            
+            // NODE: it is only way I was able to create to make parent 2 children stay in same order after revert
+            parent2NodeToInsertAfter_ = null;
+            if (nodeChangeType == NodeChangeType.Remove)
+            {
+                LinkedListNode<Node> parent2LinkedListNodeToInsertAfter = parent2_.Outputs.Find(node_).Previous;
+                if (parent2LinkedListNodeToInsertAfter != null)
+                {
+                    parent2NodeToInsertAfter_ = parent2_.Outputs.Find(node_).Previous.Value;
+                }
+            }
         }
     }
 }
