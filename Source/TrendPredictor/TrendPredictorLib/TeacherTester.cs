@@ -45,7 +45,7 @@ namespace TrendPredictorLib
                 {NodeType.reverse, 1.0d}
             };
             NodeFactory nodeFactory = new NodeFactory(funcGenerator, nodeProbabilityMap);
-            List<DataPoint> dataPoints = GenerateSinWaveDataPoints(100, 0.06d);
+            List<DataPoint> dataPoints = GenerateSinWaveDataPoints(100, 0.19d);
             Network network = new Network(nodeFactory, dataPoints, 1000);
             double addRemoveChance = 0.5;
             PatchFactory patchFactory = new PatchFactory(network, nodeFactory, addRemoveChance);
@@ -53,13 +53,12 @@ namespace TrendPredictorLib
 
             Logger.Log(this, String.Format("initial error: {0}", network.CalculateTrainingSqrError()));
             networkTeacher.Teach(
-                teachingTime: TimeSpan.FromSeconds(60.0d),
-                wantedNoOfNodes: 100, //was 2000
-                changesPerPatch: 2,
+                teachingTime: TimeSpan.FromSeconds(10000000.0d),
+                wantedNoOfNodes: 300,
+                changesPerPatch: 8,
                 patchesPerTeachingSerie: 1
             );
             Logger.Log(this, String.Format("error after learning: {0}", network.CalculateTrainingSqrError()));
-
 
             Logger.Log(this, "App finish");
             Console.ReadKey();

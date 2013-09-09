@@ -75,8 +75,9 @@ namespace GraphPrinter
             {
                 int index = Convert.ToInt32(e.AddedItems[0].ToString().Remove(0, 5)) - 1;
 
-                Graph = GraphList[index];
-                graphLayout.Graph = Graph;
+                //IMPORTANT: GRAPH DRAWIN IS JUST COMMENTED OUT!!!
+                //Graph = GraphList[index];
+                //graphLayout.Graph = Graph;
 
                 chart.Series.Clear();
 
@@ -86,7 +87,6 @@ namespace GraphPrinter
                 actualSerie.DependentValuePath = "Y";
                 actualSerie.IndependentValuePath = "X";
                 actualSerie.ItemsSource = actualData;
-                actualSerie.IsSelectionEnabled = true;
                 chart.Series.Add(actualSerie);
 
                 List<Pnt> expectedData = new List<Pnt>(ExpectedOutputChartData[index]);
@@ -95,7 +95,6 @@ namespace GraphPrinter
                 expectedSerie.DependentValuePath = "Y";
                 expectedSerie.IndependentValuePath = "X";
                 expectedSerie.ItemsSource = expectedData;
-                expectedSerie.IsSelectionEnabled = true;
                 chart.Series.Add(expectedSerie);
             }
         }

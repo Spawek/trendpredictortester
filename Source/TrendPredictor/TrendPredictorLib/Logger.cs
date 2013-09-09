@@ -55,7 +55,7 @@ namespace TrendPredictorLib
             string msgWithDateAndObjectName = String.Format("{0}[{1}]:<<'{2}'>>:   {3}",
                 priorityMsg,
                 loggingObjName,
-                String.Format(@"{0:mm\:ss\:ff}", Time.GetTimeFromProgramBeginnig()),
+                String.Format(@"{0:hh\:mm\:ss\:ff}", Time.GetTimeFromProgramBeginnig()),
                 msg
             );
 
