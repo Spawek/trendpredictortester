@@ -16,6 +16,11 @@ namespace TrendPredictorLib
             patchFactory_ = patchFactory;
         }
 
+        public override string ToString()
+        {
+            return "NetworkTeacher";
+        }
+
         public void Teach(TimeSpan teachingTime, int wantedNoOfNodes, int changesPerPatch, int patchesPerTeachingSerie)
         {
             DateTime startTime = DateTime.Now;
@@ -83,7 +88,7 @@ namespace TrendPredictorLib
             //NOTE: what is interesting double.NaN is lowest possible number AND double.NaN != double.NaN //WTF??
             double bestChange = patchesEfficiency.Min(x => double.IsNaN(x.Value) ? double.PositiveInfinity : x.Value);
             Logger.Log(this, String.Format("best change {0}", bestChange));
-            if (bestChange < 0.0d && //IMPORTANT: for now only
+            if (bestChange <= 0.0d && //IMPORTANT: for now only
                 !double.IsInfinity(bestChange) &&
                 !double.IsNaN(bestChange)) 
             {

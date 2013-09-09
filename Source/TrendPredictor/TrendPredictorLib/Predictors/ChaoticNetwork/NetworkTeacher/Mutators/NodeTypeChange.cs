@@ -44,10 +44,6 @@ namespace TrendPredictorLib
         {
             if (node == null)
                 throw new ArgumentNullException("node");
-            if (fromType == null)
-                throw new ArgumentNullException("fromType");
-            if (toType == null)
-                throw new ArgumentNullException("toType");
 
             node_ = node;
             fromType_ = fromType;
