@@ -41,7 +41,10 @@ namespace TrendPredictorLib
 
         private void PrintGraphVisualization(Network network)
         {
-            GraphPrinter.VisualizationManager.AddGraph(network.ConvertToQuickGraphForm());
+            GraphPrinter.VisualizationManager.AddGraph(
+                graph: network.ConvertToQuickGraphForm(), 
+                expectedValues: network_.GetExpectedNetworkOutput(), 
+                actualValues: network_.GetActualNetworkOutput());
         }
 
         private void PerformTeachingSerie(int wantedNoOfNodes, int changesPerPatch, int patchesPerTeachingSerie)
@@ -64,12 +67,9 @@ namespace TrendPredictorLib
                 patch.Revert();
 #if DEBUG
                 string graphAfterRevert = network_.PrintNetworkStruct();
-#endif
-//#if DEBUG
                 double errorAfterNotApplyingPatch = network_.CalculateTrainingSqrError();
                 if (serieStartError != errorAfterNotApplyingPatch)
                 {
-#if DEBUG
                     Logger.Log(this, String.Format(
                         "REVERT WENT WRONG!\n" +
                         "<<<<<<<<<<<<GRAPH BEFORE PATCH >>>>>>>>>>\n{0}\n" +
@@ -79,10 +79,9 @@ namespace TrendPredictorLib
                         graphAfterPatch,
                         graphAfterRevert), 
                         10);
-#endif
                     throw new ApplicationException("revert went wrong");
                 }
-//#endif
+#endif
             }
 
             //NOTE: what is interesting double.NaN is lowest possible number AND double.NaN != double.NaN //WTF??
@@ -97,9 +96,12 @@ namespace TrendPredictorLib
                 bestPatch.Apply();
                 double errorAfterApplyingPatch = network_.CalculateTrainingSqrError();
                 Logger.Log(this, String.Format("error after appplying patch {0}", errorAfterApplyingPatch));
-#if DEBUG
-                PrintGraphVisualization(network_);
-#endif
+//#if DEBUG
+                if (bestChange < -1E-2)
+                {
+                    PrintGraphVisualization(network_);
+                }
+//#endif
 
                 double delta = 1E-4;
                 if (serieStartError + bestChange - errorAfterApplyingPatch > delta)

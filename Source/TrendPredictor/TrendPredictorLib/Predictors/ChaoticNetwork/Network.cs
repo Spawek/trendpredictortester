@@ -46,6 +46,35 @@ namespace TrendPredictorLib
             return error;
         }
 
+        public List<double> GetActualNetworkOutput()
+        {
+            List<double> actualOutput = new List<double>(trainingData_.Count);
+
+            foreach (DataPoint trainingPoint in trainingData_)
+            {
+                ResetAllNodes();
+                for (int i = 0; i < inputsNo_; i++)
+                {
+                    Inputs[i].ProvideArgument(trainingPoint.input[i]);
+                }
+                actualOutput.Add(Output.Value);
+            }
+
+            return actualOutput;
+        }
+
+        public List<double> GetExpectedNetworkOutput()
+        {
+            List<double> expectedOutput = new List<double>(trainingData_.Count);
+
+            foreach (var item in trainingData_)
+	        {
+		        expectedOutput.Add(item.output);
+	        }
+
+            return expectedOutput;
+        }
+
         public string PrintNetworkStruct()
         {
             StringBuilder builder = new StringBuilder();

@@ -28,9 +28,7 @@ namespace TrendPredictorLib
         {
             Transform(nodeType);
             Hierarchy = hierarchy;
-#if DEBUG
             NodeID = getNextNodeID();
-#endif
         }
 
         public override string ToString()

@@ -15,6 +15,7 @@ using System.Windows.Shapes;
 using System.Threading;
 using System.Timers;
 using QuickGraph;
+using System.Windows.Controls.DataVisualization.Charting;
 
 
 namespace GraphPrinter
@@ -26,6 +27,8 @@ namespace GraphPrinter
     {
         public IBidirectionalGraph<object, IEdge<object>> Graph { get; set; }
         private List<IBidirectionalGraph<object, IEdge<object>>> GraphList { get { return visualizationManager_.graphList; } }
+        private List<List<Pnt>> ActualOutputChartData { get { return visualizationManager_.actualGraphOutputDataList; } }
+        private List<List<Pnt>> ExpectedOutputChartData { get { return visualizationManager_.expectedGraphOutputDataList; } }
         private System.Timers.Timer graphListRefresher = new System.Timers.Timer(50.0d); // 50ms
         private VisualizationManager visualizationManager_;
 
@@ -36,8 +39,14 @@ namespace GraphPrinter
             graphListRefresher.Elapsed += graphListRefresher_Elapsed;
             graphListRefresher.Start();
 
+            while (visualizationManager.graphList.Count == 0)
+            {
+                System.Threading.Thread.Sleep(1);
+            }
+
             Graph = visualizationManager.graphList.First();
             InitializeComponent();
+
             this.Show();
         }
 
@@ -68,6 +77,26 @@ namespace GraphPrinter
 
                 Graph = GraphList[index];
                 graphLayout.Graph = Graph;
+
+                chart.Series.Clear();
+
+                List<Pnt> actualData = new List<Pnt>(ActualOutputChartData[index]);
+                LineSeries actualSerie = new LineSeries();
+                actualSerie.Title = "Actual";
+                actualSerie.DependentValuePath = "Y";
+                actualSerie.IndependentValuePath = "X";
+                actualSerie.ItemsSource = actualData;
+                actualSerie.IsSelectionEnabled = true;
+                chart.Series.Add(actualSerie);
+
+                List<Pnt> expectedData = new List<Pnt>(ExpectedOutputChartData[index]);
+                LineSeries expectedSerie = new LineSeries();
+                expectedSerie.Title = "Expected";
+                expectedSerie.DependentValuePath = "Y";
+                expectedSerie.IndependentValuePath = "X";
+                expectedSerie.ItemsSource = expectedData;
+                expectedSerie.IsSelectionEnabled = true;
+                chart.Series.Add(expectedSerie);
             }
         }
 
